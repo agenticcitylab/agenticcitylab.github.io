@@ -209,12 +209,18 @@
   <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
 </dialog>
 
+<dialog class="proj" id="dlg" aria-labelledby="dlg-title">
+  <button class="xbtn" type="button">Close</button>
+  <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
+</dialog>
+
 <script src="../assets/data.js"></script>
 <script>window.ACL_FIG="../assets/figures/";window.ACL_IMG="../assets/img/"</script>
 <script src="../assets/gfx.js"></script>
 <script src="../assets/worldmask.js"></script>
 <script src="../assets/worldmap.js"></script>
 <script src="../assets/sim.js"></script>
+<script src="../assets/pages.js"></script>
 <script>
 (function(){
   const D = window.ACL_DATA, E = ACL.esc;
@@ -222,7 +228,7 @@
   document.getElementById('labmark').innerHTML = ACL.mark();
   document.getElementById('sicon').innerHTML = ACL.searchIcon;
 
-  document.getElementById('news').innerHTML = D.news.slice(0, 5).map(n => `<li><a href="../news/#${n.id}"><span class="mono">${E(n.date)}</span><p>${E(n.text)}</p></a></li>`).join('');
+  document.getElementById('news').innerHTML = D.news.slice(0, 5).map(n => `<li><a href="../news/#${n.id}" data-news="${n.id}"><span class="mono">${E(n.date)}</span><p>${E(n.text)}</p></a></li>`).join('');
 
   const personal = {
     mobility: "I began with how urban environments shape active travel: jogging volume and speed, the pace of walking and cycling, community park visits, and how greenery and sky openness steer cycling routes. I later reconstructed how delivery riders move across Beijing.",
@@ -233,7 +239,11 @@
   document.getElementById('focus').innerHTML = `<p class="lead">My research focuses on <mark>Human–AI interaction for urban mobility and city science</mark>, and has moved through three stages:</p>` +
     D.themes.map((t, i) => `<div class="stagerow">${ACL.glyph(t.id, {label: t.name})}<div><mark>Stage ${roman[i]}. ${E(t.name)}</mark><p>${E(personal[t.id])}</p></div></div>`).join('');
 
-  ACL.projects({ D, grid: document.getElementById('wall'), chips: document.getElementById('chips'), search: document.getElementById('q'), dialog: document.getElementById('proj') });
+  const projects = ACL.projects({ D, grid: document.getElementById('wall'), chips: document.getElementById('chips'), search: document.getElementById('q'), dialog: document.getElementById('proj') });
+
+  /* news items open in place; Close returns to this spot, "Full details" goes to the News page */
+  const nd = ACL.newsDialog({ D, dialog: document.getElementById('dlg'), newsHref: '../news/', onProject: id => projects.open(id) });
+  ACL.onPlainClick(document.getElementById('news'), 'a[data-news]', a => nd.open(a.dataset.news));
 
   const types = [['all','All'],['journal','Journal articles'],['conference','Conference'],['preprint','Preprints']];
   const count = t => t === 'all' ? D.pubs.length : D.pubs.filter(p => p.type === t).length;
