@@ -11,7 +11,7 @@
 <title>Chengbo (Nicholas) Zhang</title>
 <meta name="description" content="Chengbo (Nicholas) Zhang: PhD student in Transportation Engineering at McGill University and founder of Agentic City Lab. Research on human–AI interaction for urban mobility and city science.">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
-<link rel="stylesheet" href="../assets/base.css">
+<link rel="stylesheet" href="../assets/base.css?v=30463879">
 <style>
 
 .name{display:grid;gap:3px;text-decoration:none;color:var(--fg);flex:0 1 auto;min-width:0}
@@ -69,8 +69,9 @@
 .news li:last-child{border-right:0;margin-right:0}
 .news .mono{color:var(--human)}
 .news p{font-size:.9rem;color:var(--fg-2)}
-.news li a{display:grid;gap:6px;text-decoration:none;color:inherit}
-.news li a:hover p{color:var(--fg)}
+.news li .nlink{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:6px;color:inherit}
+.news li .nlink:hover p{color:var(--fg)}
+.news li .nlink:focus-visible{outline:2px solid var(--agent-2);outline-offset:3px;border-radius:3px}
 @media (max-width:1000px){.news{grid-template-columns:repeat(2,minmax(0,1fr))}.news li{border-right:0;border-bottom:1px solid var(--line)}}
 @media (max-width:520px){.news{grid-template-columns:1fr}}
 
@@ -214,13 +215,13 @@
   <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
 </dialog>
 
-<script src="../assets/data.js"></script>
+<script src="../assets/data.js?v=a7a18782"></script>
 <script>window.ACL_FIG="../assets/figures/";window.ACL_IMG="../assets/img/"</script>
-<script src="../assets/gfx.js"></script>
-<script src="../assets/worldmask.js"></script>
-<script src="../assets/worldmap.js"></script>
-<script src="../assets/sim.js"></script>
-<script src="../assets/pages.js"></script>
+<script src="../assets/gfx.js?v=305619e8"></script>
+<script src="../assets/worldmask.js?v=82e4a83c"></script>
+<script src="../assets/worldmap.js?v=31fc9139"></script>
+<script src="../assets/sim.js?v=94656a0e"></script>
+<script src="../assets/pages.js?v=6545f0e3"></script>
 <script>
 (function(){
   const D = window.ACL_DATA, E = ACL.esc;
@@ -228,7 +229,7 @@
   document.getElementById('labmark').innerHTML = ACL.mark();
   document.getElementById('sicon').innerHTML = ACL.searchIcon;
 
-  document.getElementById('news').innerHTML = D.news.slice(0, 5).map(n => `<li><a href="../news/#${n.id}" data-news="${n.id}"><span class="mono">${E(n.date)}</span><p>${E(n.text)}</p></a></li>`).join('');
+  document.getElementById('news').innerHTML = D.news.slice(0, 5).map(n => `<li><button type="button" class="nlink" data-news="${n.id}"><span class="mono">${E(n.date)}</span><p>${E(n.text)}</p></button></li>`).join('');
 
   const personal = {
     mobility: "I began with how urban environments shape active travel: jogging volume and speed, the pace of walking and cycling, community park visits, and how greenery and sky openness steer cycling routes. I later reconstructed how delivery riders move across Beijing.",
@@ -243,7 +244,7 @@
 
   /* news items open in place; Close returns to this spot, "Full details" goes to the News page */
   const nd = ACL.newsDialog({ D, dialog: document.getElementById('dlg'), newsHref: '../news/', onProject: id => projects.open(id) });
-  ACL.onPlainClick(document.getElementById('news'), 'a[data-news]', a => nd.open(a.dataset.news));
+  document.getElementById('news').addEventListener('click', e => { const b = e.target.closest('[data-news]'); if (b) nd.open(b.dataset.news); });
 
   const types = [['all','All'],['journal','Journal articles'],['conference','Conference'],['preprint','Preprints']];
   const count = t => t === 'all' ? D.pubs.length : D.pubs.filter(p => p.type === t).length;
