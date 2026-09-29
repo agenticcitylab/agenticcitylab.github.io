@@ -109,7 +109,7 @@
     }
     if (opt.search) opt.search.addEventListener('input', () => { q = opt.search.value.trim().toLowerCase(); apply(); });
     const dlg = opt.dialog, dfig = dlg.querySelector('.proj-fig'), dbody = dlg.querySelector('.proj-body');
-    const open = id => { const p = D.projects.find(x => x.id === id); if (!p) return; const F = p.fig && D.figures[p.fig];
+    const open = (id, o) => { const p = D.projects.find(x => x.id === id); if (!p) return; const F = p.fig && D.figures[p.fig];
       dfig.innerHTML = F ? `<img src="${ACL.FIG}${p.fig}-full.jpg" alt="${E(F.cap)}">` : ACL.figBox(p, D);
       dbody.innerHTML = `<span class="mono meta num">${E(p.years)} · ${E(TH[p.theme].name)}</span>
         <h3 id="proj-title">${E(p.title)}</h3><p>${E(p.body)}</p>
@@ -117,13 +117,58 @@
         ${p.links ? `<div class="proj-links">${p.links.map(l => `<a class="btn" href="${l.url}" target="_blank" rel="noopener">${E(l.label)} ↗</a>`).join('')}</div>` : ''}
         ${p.pubs.length ? `<div><span class="mono meta">Publications</span>${p.pubs.map(id => ACL.pubHTML(PUB[id])).join('')}</div>` : ''}
         ${F ? `<p class="proj-cap">${E(F.cap)}. ${E(F.ref)}.</p>` : ''}`;
-      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); };
+      ACL.openModal(dlg, Object.assign({ hash: p.id }, o)); };
     grid.addEventListener('click', e => { const t = e.target.closest('.tile'); if (t) open(t.dataset.id); });
-    dlg.querySelector('.xbtn').addEventListener('click', () => dlg.close());
-    dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
-    if (location.hash && D.projects.some(p => '#' + p.id === location.hash)) open(location.hash.slice(1));
+    /* a #project-id in the address opens that project; the tile behind is brought into view, so closing leaves the reader beside it */
+    const fromHash = () => { const h = location.hash.slice(1); if (!h || !D.projects.some(p => p.id === h) || dlg.open) return;
+      const t = grid.querySelector(`.tile[data-id="${h}"]`); if (t && !t.hidden) t.scrollIntoView({ block: 'center' }); open(h, { deep: true }); };
+    fromHash(); window.addEventListener('hashchange', fromHash);
     return { open };
   };
+
+  /* ---------- Modal dialogs ----------
+     Every detail view (projects, news, people) opens through here. Opening adds one history entry, so the browser's
+     Back button closes the dialog; Close or a click on the backdrop returns to the same page at the same scroll position.
+     A dialog opened from a link with #id (deep) adds no entry and removes the #id when it closes.
+     Switching from one dialog to another reuses the entry. A link inside a dialog to another page of the site replaces the
+     dialog's entry, so Back from that page returns here with the dialog closed and the scroll position kept. */
+  const MOD = { cur: null, pushed: false, switching: false };
+  function wireModal(dlg){
+    if (dlg._aclWired) return; dlg._aclWired = true;
+    const x = dlg.querySelector('.xbtn'); if (x) x.addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('click', e => {
+      const a = e.target.closest('a[href]');
+      if (!a || a.target || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      let u; try { u = new URL(a.getAttribute('href'), location.href); } catch(_){ return; }
+      if (u.origin !== location.origin || (u.pathname === location.pathname && u.search === location.search)) return;
+      e.preventDefault();
+      const pushed = MOD.cur === dlg && MOD.pushed; MOD.cur = null; MOD.pushed = false; delete dlg.dataset.deep; dlg.close();
+      if (pushed) location.replace(u.href);
+      else { if (location.hash) history.replaceState(history.state, '', location.pathname + location.search); location.assign(u.href); }
+    });
+    dlg.addEventListener('close', () => {
+      if (MOD.switching || MOD.cur !== dlg) return;
+      MOD.cur = null;
+      if (MOD.pushed){ MOD.pushed = false; history.back(); }
+      else if (dlg.dataset.deep){ delete dlg.dataset.deep; history.replaceState(history.state, '', location.pathname + location.search); }
+    });
+  }
+  ACL.openModal = function(dlg, o){
+    o = o || {}; wireModal(dlg);
+    const url = o.hash != null ? location.pathname + location.search + '#' + o.hash : location.href;
+    if (MOD.cur && MOD.cur.open){ const prev = MOD.cur; MOD.switching = true; prev.close(); MOD.switching = false; if (prev !== dlg) delete prev.dataset.deep;
+      history.replaceState(history.state, '', url); if (!MOD.pushed && o.hash != null) dlg.dataset.deep = 1; }
+    else if (o.deep){ MOD.pushed = false; dlg.dataset.deep = 1; }
+    else { history.pushState({ aclModal: 1 }, '', url); MOD.pushed = true; delete dlg.dataset.deep; }
+    MOD.cur = dlg;
+    if (!dlg.open){ if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); }
+    dlg.querySelectorAll('.proj-in,.proj-body').forEach(b => b.scrollTop = 0);
+  };
+  if (window.addEventListener) window.addEventListener('popstate', () => { if (MOD.cur && MOD.cur.open){ const d = MOD.cur; MOD.cur = null; MOD.pushed = false; delete d.dataset.deep; d.close(); } });
+  /* plain left clicks on matching links run fn instead of navigating; new-tab and modified clicks still follow the link */
+  ACL.onPlainClick = (root, sel, fn) => root.addEventListener('click', e => { const a = e.target.closest(sel);
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; e.preventDefault(); fn(a, e); });
 
   /* ---------- Publications ---------- */
   ACL.authors = a => ACL.esc(a).replace(/Zhang, C\.(\*?)/, '<b>Zhang, C.$1</b>');
