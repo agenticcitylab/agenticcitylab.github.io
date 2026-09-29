@@ -1,4 +1,4 @@
-# Chengbo (Nicholas) Zhang + Agentic City Lab — website package
+# Agentic City Lab — website package
 
 Static HTML/CSS/JS. No build step or framework is needed to host it.
 
