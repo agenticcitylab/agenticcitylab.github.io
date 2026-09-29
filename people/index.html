@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="People · Agentic City Lab">
+<meta property="og:description" content="People of Agentic City Lab, collaborating institutions, and how to work with us on human–AI interaction for urban mobility and city science.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07080B">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<title>People · Agentic City Lab</title>
+<meta name="description" content="People of Agentic City Lab, collaborating institutions, and how to work with us on human–AI interaction for urban mobility and city science.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+
+</style>
+
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="lockup" href="../" id="headlock" aria-label="Agentic City Lab home"></a>
+    <span class="rule" aria-hidden="true"></span>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="site-nav" id="nav" aria-label="Sections"><a href="../#route">Research</a><a href="../#projects">Projects</a><a href="../#network">Network</a><a href="../#publications">Publications</a><a href="../news/">News</a><a href="./" aria-current="page">People</a><a class="hl" href="../nicholas/">Director ↗</a></nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap page-intro">
+    <span class="mono">Agentic City Lab</span>
+    <h1>People</h1>
+    <p>A team working on human–AI interaction for urban mobility and city science. Select a person for their profile.</p>
+  </section>
+  <section class="wrap" style="padding-bottom:clamp(40px,5vw,72px)"><div class="mgrid" id="grid"></div></section>
+
+  <section class="section" id="collaborations">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Collaborations</span><div><h2>Institutions we work with</h2><p>See where they are on the <a href="../#network">network map</a>.</p></div></div>
+      <div id="partners"></div>
+    </div>
+  </section>
+
+  <section class="section" id="join">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Join us</span><div><h2>Work with Agentic City Lab</h2></div></div>
+      <div class="joinx">
+        <div><p class="lead" id="join-lead"></p>
+          <div class="stu"><h3>Students and researchers</h3><p id="join-stu"></p>
+            <div class="acts"><a class="btn solid" href="mailto:chengbo.zhang@mail.mcgill.ca?subject=Agentic%20City%20Lab">Write to us</a><div class="copy"><code>chengbo.zhang@mail.mcgill.ca</code><button type="button" data-copy="chengbo.zhang@mail.mcgill.ca">Copy</button></div></div></div></div>
+        <div><h3>What we offer partners</h3><ul class="svc" id="join-svc"></ul></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div style="display:flex;gap:14px;align-items:center"><span class="lockup" id="footlock"></span><p style="max-width:56ch">Agentic City Lab studies how people and AI agents plan, move and decide together in cities. Directed by Chengbo (Nicholas) Zhang.</p></div>
+    <p class="mono meta"><a href="../news/">News</a> · <a href="./">People</a> · <a href="../nicholas/">Director</a></p>
+  </div>
+</footer>
+
+<dialog class="proj" id="dlg" aria-labelledby="proj-title">
+  <button class="xbtn" type="button">Close</button>
+  <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
+</dialog>
+<script src="../assets/data.js"></script>
+<script>window.ACL_FIG="../assets/figures/";window.ACL_IMG="../assets/img/"</script>
+<script src="../assets/gfx.js"></script>
+<script src="../assets/worldmask.js"></script>
+<script src="../assets/worldmap.js"></script>
+<script src="../assets/pages.js"></script>
+<script>
+(function(){
+  const D = window.ACL_DATA, E = ACL.esc; ACL.menu(); ACL.copyButtons();
+  document.getElementById('headlock').innerHTML = ACL.lockup(); document.getElementById('footlock').innerHTML = ACL.lockup();
+  ACL.peoplePage({ D, grid: document.getElementById('grid'), dialog: document.getElementById('dlg'), home: '../nicholas/' });
+  const N = D.network, ps = (N.partners || []).map(n => N.orgs.find(o => o.org === n)).filter(Boolean);
+  document.getElementById('partners').innerHTML = `<div class="wm-partners" style="margin:0;grid-template-columns:1fr"><ul>${ps.map(o => `<li><b>${E(o.org)}</b><span>${E(o.city)}, ${E(o.country)}</span></li>`).join('')}</ul></div>`;
+  document.getElementById('join-lead').textContent = D.join.lead;
+  document.getElementById('join-stu').textContent = D.join.students;
+  document.getElementById('join-svc').innerHTML = D.join.services.map(s => `<li>${E(s)}</li>`).join('');
+})();
+</script>
+
+</body>
+</html>
