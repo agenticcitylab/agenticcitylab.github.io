@@ -47,7 +47,7 @@
   </div>
 </footer>
 
-<dialog class="proj" id="dlg" aria-labelledby="proj-title">
+<dialog class="proj" id="dlg" aria-labelledby="dlg-title">
   <button class="xbtn" type="button">Close</button>
   <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
 </dialog>
@@ -61,7 +61,7 @@
 (function(){
   const D = window.ACL_DATA; ACL.menu();
   document.getElementById('headlock').innerHTML = ACL.lockup(); document.getElementById('footlock').innerHTML = ACL.lockup();
-  ACL.newsPage({ D, grid: document.getElementById('grid'), chips: document.getElementById('chips'), dialog: document.getElementById('dlg'), lab: '../' });
+  ACL.newsPage({ D, grid: document.getElementById('grid'), chips: document.getElementById('chips'), dialog: document.getElementById('dlg'), lab: '../', news: './' });
 })();
 </script>
 
