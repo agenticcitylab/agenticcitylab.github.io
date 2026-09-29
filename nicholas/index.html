@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="Chengbo (Nicholas) Zhang">
+<meta property="og:description" content="Chengbo (Nicholas) Zhang: PhD student in Transportation Engineering at McGill University and founder of Agentic City Lab. Research on human–AI interaction for urban mobility and city science.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07080B">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<title>Chengbo (Nicholas) Zhang</title>
+<meta name="description" content="Chengbo (Nicholas) Zhang: PhD student in Transportation Engineering at McGill University and founder of Agentic City Lab. Research on human–AI interaction for urban mobility and city science.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+
+.name{display:grid;gap:3px;text-decoration:none;color:var(--fg);flex:0 1 auto;min-width:0}
+@media (max-width:600px){.name i{display:none}}
+.name b{font-family:var(--font-display);font-weight:700;font-size:1.25rem;letter-spacing:-.01em;line-height:1.05}
+.name i{font-family:var(--font-serif);font-size:.86rem;color:var(--fg-3)}
+.name:hover{color:var(--fg)}
+
+/* Intro (bio left, live city right) */
+.intro{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);padding-block:clamp(40px,5vw,72px) clamp(40px,5vw,64px);align-items:start}
+.bio{display:grid;gap:18px}
+.bio p{font-family:var(--font-serif);font-size:1.16rem;line-height:1.6;color:var(--fg-2)}
+.bio p b{color:var(--fg);font-weight:600}
+.bio a{color:var(--fg)}
+.bio .hello{display:grid;grid-template-columns:clamp(128px,15vw,200px) minmax(0,1fr);gap:clamp(18px,2.4vw,32px);align-items:end;margin-bottom:6px}
+.portrait{position:relative;margin:0;aspect-ratio:4/5;border-radius:8px;overflow:hidden;background:var(--bg-3);border:1px solid var(--line-2)}
+.portrait img{display:block;width:100%;height:100%;object-fit:cover}
+.portrait::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--human) 0 50%,var(--agent) 50% 100%)}
+.who{display:grid;gap:12px;padding-bottom:10px}
+.who .kick{color:var(--fg-3)}
+.who .role{font-family:var(--font-body);font-size:.98rem;color:var(--fg-2);line-height:1.45}
+.who .role a{color:var(--fg);font-weight:600}
+.bio h1{font-family:var(--font-display);font-size:clamp(2rem,3.6vw,3rem);font-weight:800;font-stretch:112%;font-variation-settings:"wdth" 112;letter-spacing:-.025em;line-height:1}
+@media (max-width:520px){.bio .hello{grid-template-columns:112px minmax(0,1fr);gap:16px}.bio h1{font-size:1.72rem}.who{gap:8px;padding-bottom:4px}.who .role{font-size:.88rem}}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.citycard{display:grid;gap:10px}
+.citycard .cv{position:relative;aspect-ratio:1/1;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;background:var(--bg)}
+.citycard canvas{position:absolute;inset:0;width:100%;height:100%}
+.citycard .cap{display:flex;justify-content:space-between;gap:10px;color:var(--fg-3)}
+.citycard .cap b{color:var(--fg);font-weight:500}
+.citycard .legend{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--fg-2)}
+.citycard .legend span{display:inline-flex;align-items:center;gap:7px}
+.citycard .legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.lablink{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--line-2);border-radius:8px;text-decoration:none;color:var(--fg)}
+.lablink svg{height:22px;width:auto;flex:none}
+.lablink span{font-size:.92rem;color:var(--fg-2)}
+.lablink b{display:block;color:var(--fg);font-size:1rem}
+.lablink:hover{border-color:var(--agent);color:var(--fg)}
+@media (max-width:900px){.intro{grid-template-columns:1fr}.citycard{max-width:520px}}
+
+/* Research focus (highlighted stage labels) */
+.focus{display:grid;gap:22px;max-width:980px}
+.focus .lead{font-family:var(--font-serif);font-size:1.16rem;color:var(--fg-2)}
+.focus .lead mark{background:var(--fg);color:var(--bg);padding:1px 6px;font-weight:600;font-family:var(--font-body)}
+.stagerow{display:grid;grid-template-columns:56px minmax(0,1fr);gap:18px;align-items:start}
+.stagerow svg{width:56px;height:56px}
+.stagerow mark{display:inline-block;background:var(--bg-3);color:var(--fg);padding:3px 8px;font-weight:700;font-family:var(--font-display);font-size:1.02rem;border-left:3px solid var(--human)}
+.stagerow:nth-child(3) mark{border-left-color:color-mix(in srgb,var(--human) 50%,var(--agent))}
+.stagerow:nth-child(4) mark{border-left-color:var(--agent)}
+.stagerow p{font-family:var(--font-serif);color:var(--fg-2);margin-top:8px;font-size:1.04rem}
+
+/* News */
+.news{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:1px solid var(--line-2)}
+.news li{padding:14px 18px 16px 0;margin-right:18px;border-right:1px solid var(--line);display:grid;gap:6px;align-content:start}
+.news li:last-child{border-right:0;margin-right:0}
+.news .mono{color:var(--human)}
+.news p{font-size:.9rem;color:var(--fg-2)}
+@media (max-width:1000px){.news{grid-template-columns:repeat(2,minmax(0,1fr))}.news li{border-right:0;border-bottom:1px solid var(--line)}}
+@media (max-width:520px){.news{grid-template-columns:1fr}}
+
+/* Rows */
+.rows{border-top:1px solid var(--line-2)}
+.row{display:grid;grid-template-columns:110px minmax(0,1fr) minmax(0,.9fr);gap:20px;padding-block:15px;border-bottom:1px solid var(--line);align-items:baseline}
+.row .mono{color:var(--fg-3)}
+.row .t{font-family:var(--font-serif);font-weight:500;line-height:1.4;font-size:1.02rem}
+.row .v{color:var(--fg-2);font-size:.92rem}
+.row .rk{font-family:var(--font-mono);font-size:.78rem;color:var(--human);white-space:nowrap}
+.row.award{grid-template-columns:70px minmax(0,1.2fr) minmax(0,1fr) 150px}
+@media (max-width:820px){.row,.row.award{grid-template-columns:1fr;gap:4px}}
+.bg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4vw,56px)}
+.bg h3{font-family:var(--font-mono);font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-3);font-size:.78rem;margin-bottom:12px}
+.bg-item{padding-block:15px;border-top:1px solid var(--line);display:grid;gap:4px}
+.bg-item .t{font-weight:700}
+.bg-item .v{color:var(--fg-2);font-size:.94rem}
+.bg-item ul{margin-top:4px;display:grid;gap:2px}
+.bg-item li{font-size:.9rem;color:var(--fg-2);padding-left:14px;position:relative;font-family:var(--font-serif)}
+.bg-item li::before{content:"";position:absolute;left:0;top:.7em;width:6px;height:2px;background:var(--agent)}
+.skills{margin-top:32px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 24px}
+.skills div{border-top:1px solid var(--line);padding-top:12px}
+.skills .mono{color:var(--fg-3);display:block;margin-bottom:4px}
+.skills p{font-size:.9rem;color:var(--fg-2)}
+@media (max-width:820px){.bg{grid-template-columns:1fr}.skills{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.contact{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px;align-items:end}
+.contact h2{font-size:clamp(1.8rem,3.4vw,2.8rem);font-stretch:112%;font-variation-settings:"wdth" 112}
+@media (max-width:820px){.contact{grid-template-columns:1fr}}
+.pubnote{color:var(--fg-3);font-size:.86rem;margin-top:10px}
+</style>
+
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="name" href="#top"><b>Chengbo (Nicholas) Zhang</b><i>Human–AI interaction for urban mobility and city science</i></a>
+    <span class="rule" aria-hidden="true"></span>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="site-nav" id="nav" aria-label="Sections">
+      <a href="#research">Research</a><a href="#network">Network</a><a href="#projects">Projects</a><a href="#publications">Publications</a><a href="#talks">Talks</a><a href="#awards">Awards</a><a href="#background">Background</a><a href="../cv/ZhangChengbo_CV.pdf" target="_blank" rel="noopener">CV</a><a class="hl" href="../">Agentic City Lab ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap intro">
+    <div class="bio">
+      <div class="hello">
+        <figure class="portrait"><img src="../assets/img/portrait.jpg" width="640" height="800" alt="Portrait of Chengbo (Nicholas) Zhang"></figure>
+        <div class="who"><span class="mono kick">PhD student · McGill University</span><h1>Chengbo (Nicholas) Zhang</h1><span class="role">Founder &amp; Director, <a href="../">Agentic City Lab</a><br>Montréal, Canada</span></div>
+      </div>
+      <p>Hello! I am <b>Chengbo (Nicholas) Zhang</b>, a PhD student in Transportation Engineering at <b>McGill University</b>, supervised by <a href="https://www.jbyu.net/" target="_blank" rel="noopener">Prof. Jiangbo Yu</a>. I work on <b>human–AI interaction for urban mobility and city science</b>: how people and AI agents plan, move and decide together in cities.</p>
+      <p>I build large-language-model agents whose personas come from real trajectories, reconstruct city-scale movement of on-demand delivery riders, and measure how street environments shape walking, jogging and cycling. My papers appear in <i>npj Sustainable Mobility and Transport</i>, <i>Cities</i>, <i>Transportation</i> and the <i>Journal of Transport Geography</i>.</p>
+      <p>I am the founder and director of <a href="../"><b>Agentic City Lab</b></a>, an independent lab in Montréal. Before McGill I studied urban planning at Harbin Institute of Technology (Shenzhen) and Xiamen University.</p>
+      <div class="links">
+        <a class="btn solid" href="../cv/ZhangChengbo_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+        <a class="btn" href="https://scholar.google.com/citations?user=c6YsYRwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+        <a class="btn" href="https://orcid.org/0009-0003-7872-4519" target="_blank" rel="noopener">ORCID</a>
+        <a class="btn" href="https://github.com/Nicholas0027" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/chengbo-zhang-ba036032a/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <aside class="citycard">
+      <div class="cv"><canvas id="sim" role="img" aria-label="Live simulation of residents (amber) and AI agents (blue) interacting in a city"></canvas></div>
+      <div class="cap mono"><span>People and AI agents, live</span><span>Interactions <b id="h-inter" class="num">0</b></span></div>
+      <div class="legend mono"><span><i style="background:var(--human)"></i>People</span><span><i style="background:var(--agent)"></i>AI agents</span><span><i style="border:2px solid var(--fg)"></i>Interaction</span></div>
+      <a class="lablink" href="../"><span id="labmark"></span><span><b>Agentic City Lab</b>Research, projects and people</span></a>
+      <div class="copy"><code>chengbo.zhang@mail.mcgill.ca</code><button type="button" data-copy="chengbo.zhang@mail.mcgill.ca">Copy</button></div>
+    </aside>
+  </section>
+
+  <section class="wrap" aria-label="Recent news" style="padding-bottom:clamp(40px,5vw,64px)"><ul class="news" id="news"></ul></section>
+
+  <section class="section" id="research">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Research</span><div><h2>Research route</h2></div></div>
+      <div class="focus" id="focus"></div>
+    </div>
+  </section>
+
+  <section class="section" id="network">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Network</span><div><h2>International collaboration</h2><p>Co-author institutions and the conferences where the work was presented. Hover a place for details.</p></div></div>
+      <div id="wmap"></div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Projects</span><div><h2>Projects</h2><p>Figures from the papers. Select a project to read more.</p></div></div>
+      <div class="tools"><div class="chips" id="chips" role="group" aria-label="Filter projects by research stage"></div>
+        <label class="search"><span id="sicon"></span><input id="q" type="search" placeholder="Search projects" aria-label="Search projects"></label></div>
+      <div class="wall c3" id="wall"></div>
+    </div>
+  </section>
+
+  <section class="section" id="publications">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Publications</span><div><h2>Publications and preprints</h2><p class="pubnote">* Corresponding author. Full list and citations on <a href="https://scholar.google.com/citations?user=c6YsYRwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p></div></div>
+      <div class="tools"><div class="chips" id="pubfilters" role="group" aria-label="Filter publications"></div></div>
+      <div class="pub-list" id="pubs"></div>
+    </div>
+  </section>
+
+  <section class="section" id="talks">
+    <div class="wrap"><div class="sec-head"><span class="mono">Talks</span><div><h2>Conference presentations</h2></div></div><div class="rows" id="talklist"></div></div>
+  </section>
+
+  <section class="section" id="awards">
+    <div class="wrap"><div class="sec-head"><span class="mono">Awards</span><div><h2>Awards and competitions</h2></div></div><div class="rows" id="awardlist"></div></div>
+  </section>
+
+  <section class="section" id="background">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Background</span><div><h2>Education and experience</h2></div></div>
+      <div class="bg"><div><h3>Education</h3><div id="edu"></div></div><div><h3>Experience</h3><div id="exp"></div></div></div>
+      <div class="skills" id="skills"></div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="wrap contact">
+      <div><p class="mono meta" style="margin-bottom:14px">Contact</p><h2>Collaborations, data questions and speaking invitations are welcome.</h2></div>
+      <div style="display:grid;gap:14px"><div class="copy"><code>chengbo.zhang@mail.mcgill.ca</code><button type="button" data-copy="chengbo.zhang@mail.mcgill.ca">Copy</button></div><p class="meta">McGill University, Montréal, Québec, Canada</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap"><p>© 2026 Chengbo (Nicholas) Zhang · Founder &amp; Director, <a href="../">Agentic City Lab</a></p><p class="mono meta">Updated September 2026</p></div>
+</footer>
+
+<dialog class="proj" id="proj" aria-labelledby="proj-title">
+  <button class="xbtn" type="button">Close</button>
+  <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
+</dialog>
+
+<script src="../assets/data.js"></script>
+<script>window.ACL_FIG="../assets/figures/"</script>
+<script src="../assets/gfx.js"></script>
+<script src="../assets/worldmask.js"></script>
+<script src="../assets/worldmap.js"></script>
+<script src="../assets/sim.js"></script>
+<script>
+(function(){
+  const D = window.ACL_DATA, E = ACL.esc;
+  ACL.menu(); ACL.copyButtons();
+  document.getElementById('labmark').innerHTML = ACL.mark();
+  document.getElementById('sicon').innerHTML = ACL.searchIcon;
+
+  document.getElementById('news').innerHTML = D.news.slice(0, 5).map(n => `<li><span class="mono">${E(n.date)}</span><p>${E(n.text)}</p></li>`).join('');
+
+  const personal = {
+    mobility: "I began with how urban environments shape active travel: jogging volume and speed, the pace of walking and cycling, community park visits, and how greenery and sky openness steer cycling routes. I later reconstructed how delivery riders move across Beijing.",
+    networks: "Individual movements become flows, and flows connect places. I studied outshopping flows, human-centered park networks, and how on-demand delivery communities emerge and dissolve through the day, then measured where delivery pressure builds up.",
+    agentic: "Now I infer the decision logic behind observed trajectories and build LLM agents with empirically grounded personas. My PhD asks how agentic AI can reason, interact with people and be reliably evaluated in transportation systems."
+  };
+  const roman = ['I','II','III'];
+  document.getElementById('focus').innerHTML = `<p class="lead">My research focuses on <mark>Human–AI interaction for urban mobility and city science</mark>, and has moved through three stages:</p>` +
+    D.themes.map((t, i) => `<div class="stagerow">${ACL.glyph(t.id, {label: t.name})}<div><mark>Stage ${roman[i]}. ${E(t.name)}</mark><p>${E(personal[t.id])}</p></div></div>`).join('');
+
+  ACL.projects({ D, grid: document.getElementById('wall'), chips: document.getElementById('chips'), search: document.getElementById('q'), dialog: document.getElementById('proj') });
+
+  const types = [['all','All'],['journal','Journal articles'],['conference','Conference'],['preprint','Preprints']];
+  const count = t => t === 'all' ? D.pubs.length : D.pubs.filter(p => p.type === t).length;
+  const fEl = document.getElementById('pubfilters'), pEl = document.getElementById('pubs');
+  fEl.innerHTML = types.map(([k, l], i) => `<button type="button" class="chip" data-k="${k}" aria-pressed="${i === 0}">${l} <span class="num meta">${count(k)}</span></button>`).join('');
+  const show = k => { ACL.renderPubs(pEl, D.pubs, p => k === 'all' || p.type === k); fEl.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.k === k)); };
+  fEl.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) show(b.dataset.k); });
+  show('all');
+
+  document.getElementById('talklist').innerHTML = D.talks.map(t => `<div class="row"><span class="mono num">${E(t.date)}</span><span class="t">${E(t.title)}</span><span class="v">${E(t.venue)}, ${E(t.place)}</span></div>`).join('');
+  document.getElementById('awardlist').innerHTML = D.awards.map(a => `<div class="row award"><span class="mono num">${a.year}</span><span class="t">${E(a.name)}${a.note ? `<br><span class="v" style="font-family:var(--font-body)">${E(a.note)}</span>` : ''}</span><span class="v">${E(a.event)}${a.lead ? ' · lead contributor' : ''}</span><span class="rk">${E(a.rank)}</span></div>`).join('');
+  document.getElementById('edu').innerHTML = D.education.map(e => `<div class="bg-item"><span class="mono meta num">${E(e.years)}</span><span class="t">${E(e.degree)}</span><span class="v">${E(e.school)}, ${E(e.place)}</span><ul>${e.notes.map(n => `<li>${E(n)}</li>`).join('')}</ul></div>`).join('');
+  document.getElementById('exp').innerHTML = D.experience.map(e => `<div class="bg-item"><span class="mono meta num">${E(e.years)}</span><span class="t">${E(e.role)}</span><span class="v">${E(e.org)}, ${E(e.place)}</span><ul><li>${E(e.note)}</li></ul></div>`).join('');
+  document.getElementById('skills').innerHTML = D.skills.map(([k, v]) => `<div><span class="mono">${E(k)}</span><p>${E(v)}</p></div>`).join('');
+
+  ACL.worldMap({ mount: document.getElementById('wmap'), D });
+  ACL.citySim({ canvas: document.getElementById('sim'), seed: 11, hud: { inter: document.getElementById('h-inter') } });
+})();
+</script>
+
+</body>
+</html>
