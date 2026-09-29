@@ -263,7 +263,7 @@ dialog.proj::backdrop{background:rgba(0,0,0,.72)}
 .ncard,.member{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:10px;align-content:start;min-width:0}
 .ncard[hidden]{display:none}
 .nimg{display:block;aspect-ratio:4/3;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;background:var(--bg);transition:border-color .2s}
-.nimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.nimg img{width:100%;height:100%;object-fit:cover;object-position:50% 35%;display:block;transition:transform .5s}
 .ncard:hover .nimg,.ncard:focus-visible .nimg{border-color:var(--fg-3)}
 .ncard:hover .nimg img{transform:scale(1.03)}
 .ncard:focus-visible,.member:focus-visible{outline:2px solid var(--agent-2);outline-offset:4px;border-radius:8px}
@@ -284,6 +284,16 @@ dialog.proj::backdrop{background:rgba(0,0,0,.72)}
 .pc-lb b{font-family:var(--font-mono);font-weight:500;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg)}
 .pc-lb span{font-size:.8rem;color:var(--fg-2)}
 .proj-body .nmeta{justify-content:flex-start;gap:16px;padding-right:84px}
+.proj-fig .gmain{display:grid;place-items:center;background:var(--bg);min-height:0}
+.proj-fig .gmain img{width:100%;height:auto;max-height:68vh;object-fit:contain;display:block}
+.proj-fig .gcap{font-size:.82rem;color:var(--fg-3);padding:10px 16px 0}
+.proj-fig .gthumbs{display:flex;gap:8px;padding:10px 16px 16px;flex-wrap:wrap}
+.proj-fig .gthumbs button{all:unset;cursor:pointer;width:64px;height:48px;border-radius:4px;overflow:hidden;border:1px solid var(--line-2);display:grid;place-items:center;background:var(--bg-3);opacity:.6}
+.proj-fig .gthumbs button[aria-pressed="true"]{opacity:1;border-color:var(--human)}
+.proj-fig .gthumbs button:focus-visible{outline:2px solid var(--agent-2)}
+.proj-fig .gthumbs img{width:100%;height:100%;object-fit:cover}
+.proj-fig .gmap{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-2)}
+.proj-fig:has(.gmain){align-content:start}
 .facts{display:grid;grid-template-columns:80px minmax(0,1fr);gap:6px 14px;border-top:1px solid var(--line);padding-top:12px}
 .facts dt{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3);padding-top:3px}
 .facts dd{margin:0;color:var(--fg-2);font-size:.94rem}

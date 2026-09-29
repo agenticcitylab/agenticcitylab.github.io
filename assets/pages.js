@@ -16,9 +16,20 @@
   /* ---------- News ---------- */
   function newsVisual(n, D, big){
     const pr = n.project && D.projects.find(p => p.id === n.project), fig = pr && pr.fig && D.figures[pr.fig];
+    if (!big && n.photos && n.photos.length) return `<img src="${ACL.IMG}${n.photos[0].src}" alt="${E(n.photos[0].cap)}" loading="lazy">`;
     if (n.geo && ACL.placeCard) return ACL.placeCard(n.geo, { kind: n.kind, label: n.place, sub: big ? n.event : '', aspect: big ? 1 : 4 / 3 });
     if (fig) return `<img src="${ACL.FIG}${pr.fig}${big ? '-full' : ''}.jpg" alt="${E(fig.cap)}" loading="lazy">`;
     return `<div class="fig-empty">${ACL.glyph(pr ? pr.theme : 'agentic')}</div>`;
+  }
+  /* dialog gallery: every photo, then the map card for events */
+  function gallery(n, D, el){
+    const items = (n.photos || []).map(p => ({ html: `<img src="${ACL.IMG}${p.src}" alt="${E(p.cap)}">`, cap: p.cap, thumb: `<img src="${ACL.IMG}${p.src}" alt="">` }));
+    if (n.geo) items.push({ html: newsVisual(Object.assign({}, n, { photos: [] }), D, true), cap: n.place + (n.event ? ' · ' + n.event : ''), thumb: '<span class="gmap">Map</span>' });
+    if (items.length < 2){ el.innerHTML = items.length ? `<div class="gmain">${items[0].html}</div>${n.photos && n.photos.length ? `<p class="gcap">${E(items[0].cap)}</p>` : ''}` : newsVisual(n, D, true); return; }
+    el.innerHTML = `<div class="gmain"></div><p class="gcap"></p><div class="gthumbs">${items.map((it, i) => `<button type="button" data-i="${i}" aria-label="Show image ${i + 1}">${it.thumb}</button>`).join('')}</div>`;
+    const main = el.querySelector('.gmain'), cap = el.querySelector('.gcap'), th = el.querySelectorAll('.gthumbs button');
+    const pick = i => { main.innerHTML = items[i].html; cap.textContent = items[i].cap; th.forEach((b, j) => b.setAttribute('aria-pressed', i === j)); };
+    th.forEach(b => b.addEventListener('click', () => pick(+b.dataset.i))); pick(0);
   }
   ACL.newsPage = function(opt){
     const D = opt.D, grid = opt.grid, dlg = opt.dialog, PUB = Object.fromEntries(D.pubs.map(p => [p.id, p]));
@@ -36,7 +47,7 @@
     }
     const fig = dlg.querySelector('.proj-fig'), body = dlg.querySelector('.proj-body');
     const open = id => { const n = D.news.find(x => x.id === id); if (!n) return; const p = n.pub && PUB[n.pub], pr = n.project && D.projects.find(x => x.id === n.project);
-      fig.innerHTML = newsVisual(n, D, true);
+      gallery(n, D, fig);
       body.innerHTML = `<span class="nmeta"><span class="kind k-${KIND[n.kind] || 'data'}">${E(n.kind)}</span><span class="mono num">${E(n.date)}</span></span>
         <h3 id="proj-title">${E(n.title)}</h3><p>${E(n.brief || n.text)}</p>
         ${n.event || n.rank || n.jury ? `<dl class="facts">${n.event ? `<dt>Event</dt><dd>${E(n.event)}</dd>` : ''}${n.place ? `<dt>Place</dt><dd>${E(n.place)}</dd>` : ''}${n.rank ? `<dt>Result</dt><dd>${E(n.rank)}</dd>` : ''}${n.jury ? `<dt>Jury</dt><dd>${E(n.jury)}</dd>` : ''}</dl>` : ''}
@@ -48,6 +59,7 @@
     grid.addEventListener('click', e => { const c = e.target.closest('.ncard'); if (c) open(c.dataset.id); });
     dialogWire(dlg);
     if (location.hash) open(location.hash.slice(1));
+    window.addEventListener('hashchange', () => { if (location.hash && !dlg.open) open(location.hash.slice(1)); });
     return { open };
   };
 
