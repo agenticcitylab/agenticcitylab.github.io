@@ -111,7 +111,7 @@
     const dlg = opt.dialog, dfig = dlg.querySelector('.proj-fig'), dbody = dlg.querySelector('.proj-body');
     const open = id => { const p = D.projects.find(x => x.id === id); if (!p) return; const F = p.fig && D.figures[p.fig];
       dfig.innerHTML = F ? `<img src="${ACL.FIG}${p.fig}-full.jpg" alt="${E(F.cap)}">` : ACL.figBox(p, D);
-      dbody.innerHTML = `<span class="mono meta num">${E(p.years)} · 0${D.themes.indexOf(TH[p.theme])+1} ${E(TH[p.theme].name)}</span>
+      dbody.innerHTML = `<span class="mono meta num">${E(p.years)} · ${E(TH[p.theme].name)}</span>
         <h3 id="proj-title">${E(p.title)}</h3><p>${E(p.body)}</p>
         ${p.badge ? `<div><span class="tag award">${E(p.badge)}</span></div>` : ''}${p.status ? `<div><span class="status" style="margin:0">${E(p.status)}</span></div>` : ''}
         ${p.links ? `<div class="proj-links">${p.links.map(l => `<a class="btn" href="${l.url}" target="_blank" rel="noopener">${E(l.label)} ↗</a>`).join('')}</div>` : ''}

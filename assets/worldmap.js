@@ -123,4 +123,27 @@
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) root.querySelectorAll('.wm-pulse').forEach(c => c.remove());
     return { countries: countries.size, orgs: nOrgs, events: nEvents };
   };
+
+  /* Place card: a dot-matrix close-up of one location, used by the news page for talks and awards.
+     o.aspect = width / height of the frame (1 for the dialog, 4/3 for cards); the map is cropped around the place. */
+  function crop(on, cols, rows, c0, r0, nc, nr, VW, VH, w, wrap){ const cw = VW / nc, ch = VH / nr; let d = '';
+    for (let r = 0; r < nr; r++) for (let c = 0; c < nc; c++){ const rr = r0 + r; let cc = c0 + c; if (wrap) cc = ((cc % cols) + cols) % cols;
+      if (rr >= 0 && rr < rows && cc >= 0 && cc < cols && on(rr * cols + cc)) d += `M${((c + .5) * cw).toFixed(1)} ${((r + .5) * ch).toFixed(1)}h0`; }
+    return `<path d="${d}" class="wm-land" style="stroke-width:${w}"/>`; }
+  ACL.placeCard = function(geo, o){
+    o = o || {}; const W = window.ACL_WORLD; if (!W || !geo) return '';
+    const a = o.aspect || 1, VW = 640, VH = Math.round(640 / a), P = W.plates, k = ['na', 'eu', 'ea'].find(k => P[k] && inBox(geo, P[k]));
+    let svg, fx, fy;
+    if (k){ const m = P[k], on = bitsOf(m), nr = Math.round(m.cols / a), gy = (m.lat0 - geo[0]) / (m.lat0 - m.lat1) * m.rows;
+      const r0 = Math.max(0, Math.min(m.rows - nr, Math.round(gy - nr / 2)));
+      svg = crop(on, m.cols, m.rows, 0, r0, m.cols, nr, VW, VH, 4.4, false);
+      fx = (geo[1] - m.lon0) / (m.lon1 - m.lon0); fy = (gy - r0) / nr; }
+    else { const w = W.world, on = bitsOf(w), nc = 32, nr = Math.round(nc / a);
+      const gx = (geo[1] + 180) / w.sLon, gy = (w.lat0 - geo[0]) / w.sLat, c0 = Math.round(gx - nc / 2), r0 = Math.round(gy - nr / 2);
+      svg = crop(on, w.cols, w.rows, c0, r0, nc, nr, VW, VH, (VW / nc * .45).toFixed(1), true);
+      fx = (gx - c0) / nc; fy = (gy - r0) / nr; }
+    return `<div class="pcard"><svg viewBox="0 0 ${VW} ${VH}" aria-hidden="true">${svg}</svg>
+      <span class="pc-pt k-${o.kind === 'Award' ? 'award' : 'talk'}" style="left:${(fx * 100).toFixed(2)}%;top:${(fy * 100).toFixed(2)}%"><i></i></span>
+      ${o.label ? `<span class="pc-lb"><b>${E(o.label)}</b>${o.sub ? `<span>${E(o.sub)}</span>` : ''}</span>` : ''}</div>`;
+  };
 })();

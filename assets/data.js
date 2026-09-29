@@ -299,14 +299,61 @@ window.ACL_DATA = {
     ["Spatial analysis", "QGIS, ArcGIS, Adobe Creative Suite"]
   ],
 
+  /* News: kind = Award | Paper | Preprint | Data | Talk. Events carry geo/place (shown as a map card);
+     papers show the figure of their project. project links to the project on the lab page. */
+  /* People: tap a card for the full profile. photo/thumb live in assets/img. */
+  people: [
+    { id: "chengbo", name: "Chengbo (Nicholas) Zhang", role: "Founder & Director", title: "PhD student, Transportation Engineering, McGill University",
+      photo: "portrait.jpg", thumb: "portrait-sq.jpg", place: "Montréal, Canada", email: "chengbo.zhang@mail.mcgill.ca",
+      brief: "Works on human–AI interaction for urban mobility and city science: LLM agents grounded in real trajectories, on-demand delivery networks and active travel.",
+      bio: ["Chengbo builds large-language-model agents whose personas come from real trajectories, reconstructs city-scale movement of on-demand delivery riders, and measures how street environments shape walking, jogging and cycling. His papers appear in npj Sustainable Mobility and Transport, Cities, Transportation and the Journal of Transport Geography.",
+            "He is a PhD student in Transportation Engineering at McGill University, supervised by Prof. Jiangbo Yu, and studied urban planning at Harbin Institute of Technology (Shenzhen) and Xiamen University."],
+      interests: ["LLM agents for transportation", "Human–AI interaction", "On-demand delivery networks", "Active travel and urban environments", "Spatial networks and accessibility"],
+      links: [{ label: "Personal site", url: "HOME" }, { label: "Google Scholar", url: "https://scholar.google.com/citations?user=c6YsYRwAAAAJ" }, { label: "ORCID", url: "https://orcid.org/0009-0003-7872-4519" }, { label: "GitHub", url: "https://github.com/Nicholas0027" }, { label: "LinkedIn", url: "https://www.linkedin.com/in/chengbo-zhang-ba036032a/" }] }
+  ],
+  join: {
+    lead: "From research to deployment, we offer research collaboration and technical services to universities, research centres, cities and industry partners, turning agentic AI and spatial analytics into evidence that is transparent, reproducible and ready for decisions. We work with academic institutions, mobility platforms and community organisations on projects with clear, measurable outcomes for the people who live and move in cities.",
+    services: ["LLM agents and human–AI simulation grounded in real mobility data", "Trajectory reconstruction, open datasets and data pipelines for delivery and active travel", "Spatial analytics: networks, accessibility and crowdedness measures", "Evaluation of AI tools and agents used in transportation"],
+    students: "Students and researchers working on LLM agents, urban mobility data or spatial networks are welcome to write with a short note, a CV and the topic they would like to work on."
+  },
   news: [
-    { date: "Jul 2026", text: "Runner-up in the Graduate Student Paper Competition at the International Time Geography Conference, Toronto." },
-    { date: "2026", text: "Delivery network communities paper published in npj Sustainable Mobility and Transport.", pub: "npj" },
-    { date: "2026", text: "3D animation of Beijing rider trajectories published in Environment and Planning B.", pub: "epb" },
-    { date: "Mar 2026", text: "LLM-DR preprint on LLM delivery-rider agents released on arXiv.", pub: "llmdr" },
-    { date: "Jul 2025", text: "Outstanding Poster Award at the International Conference on Urban Science and Intelligence, Bali." },
-    { date: "Jul 2025", text: "City-scale rider trajectory dataset released openly (CC BY 4.0).", pub: "dataset" },
-    { date: "May 2025", text: "Talk at the Harvard CGA International Symposium on Spatiotemporal Data Science." },
-    { date: "Mar 2025", text: "Second Place, AAG John Odland SAM Student Paper Competition, Detroit." }
+    { id: "itgc-2026", date: "Jul 2026", kind: "Award", title: "Runner-up, ITGC Graduate Student Paper Competition",
+      text: "Runner-up in the Graduate Student Paper Competition at the International Time Geography Conference, Toronto.",
+      event: "International Time Geography Conference", place: "Toronto, Canada", geo: [43.663, -79.396], rank: "2 of 10", pub: "di2sfca", project: "di2sfca",
+      brief: "The paper on spatiotemporal order crowdedness in online-to-offline delivery, which introduces the dynamic inverted two-step floating catchment area (Di2SFCA) method, placed second of ten in the graduate student paper competition." },
+    { id: "npj-communities", date: "2026", kind: "Paper", title: "Delivery network communities in npj Sustainable Mobility and Transport",
+      text: "Delivery network communities paper published in npj Sustainable Mobility and Transport.", pub: "npj", project: "communities",
+      brief: "From 278,681 Ele.me orders in Beijing, hourly multilayer delivery networks reveal 160 communities that emerge, grow, stabilize, shrink and dissolve through the day." },
+    { id: "jtg-cyclist-irl", date: "2026", kind: "Paper", title: "Inferring cyclist route choice with inverse reinforcement learning",
+      text: "Cyclist route choice paper published in the Journal of Transport Geography.", pub: "airl", project: "cyclist-irl",
+      brief: "A hierarchical adversarial inverse reinforcement learning approach recovers the decision logic behind cyclists' observed routes and groups riders into behavioral profiles." },
+    { id: "epb-animation", date: "2026", kind: "Paper", title: "3D animation of Beijing delivery flows in Environment and Planning B",
+      text: "3D animation of Beijing rider trajectories published in Environment and Planning B.", pub: "epb", project: "beijing",
+      brief: "Path-reconstructed rider trajectories become a 3D interactive animation that shows how on-demand deliveries flow through Beijing across space and time." },
+    { id: "ufug-park-network", date: "2026", kind: "Paper", title: "Human-centered park networks in Urban Forestry & Urban Greening",
+      text: "Park network planning paper published in Urban Forestry & Urban Greening.", pub: "ufug", project: "park-network",
+      brief: "Walking and cycling trajectories link Shenzhen's parks into a human-centered green-space network, pointing to walkable and ridable park systems and connections worth planning for." },
+    { id: "llm-dr", date: "Mar 2026", kind: "Preprint", title: "LLM-DR: language-model agents as delivery riders",
+      text: "LLM-DR preprint on LLM delivery-rider agents released on arXiv.", pub: "llmdr", project: "llm-dr",
+      brief: "Work strategies identified in real rider trajectories become empirically grounded personas for LLM agents that accept orders and choose routes, so individual strategies can be traced to system-level outcomes." },
+    { id: "icusi-2025", date: "Jul 2025", kind: "Award", title: "Outstanding Poster Award, ICUSI 2025",
+      text: "Outstanding Poster Award at the International Conference on Urban Science and Intelligence, Bali.",
+      event: "3rd International Conference on Urban Science and Intelligence", place: "Bali, Indonesia", geo: [-8.72, 115.17], rank: "Top 8 of 32", jury: "Marta González, Carlo Ratti, Fengli Xu and Yong Li", pub: "llmdr", project: "llm-dr",
+      brief: "The poster on large language models as delivery riders, which generates riders' routing decisions with an LLM agent framework, received an Outstanding Poster Award." },
+    { id: "delivery-dataset", date: "Jul 2025", kind: "Data", title: "City-scale delivery trajectory dataset released openly",
+      text: "City-scale rider trajectory dataset released openly (CC BY 4.0).", pub: "dataset", project: "beijing",
+      brief: "79,648 delivery waves from 986 anonymized couriers in Beijing, reconstructed into continuous route geometries, are available under a CC BY 4.0 licence." },
+    { id: "harvard-cga-2025", date: "May 2025", kind: "Talk", title: "Talk at the Harvard CGA Symposium on Spatiotemporal Data Science",
+      text: "Talk at the Harvard CGA International Symposium on Spatiotemporal Data Science.",
+      event: "International Symposium on Spatiotemporal Data Science, Harvard Center for Geographic Analysis", place: "Cambridge, USA", geo: [42.378, -71.117], project: "communities",
+      brief: "Talk: Dynamic network of instant delivery: multi-layer detection, temporal evolution, and border thickness." },
+    { id: "aag-2025", date: "Mar 2025", kind: "Award", title: "Second Place, AAG John Odland SAM Student Paper Competition",
+      text: "Second Place, AAG John Odland SAM Student Paper Competition, Detroit.",
+      event: "AAG Annual Meeting", place: "Detroit, USA", geo: [42.331, -83.046], rank: "2 of 8", project: "communities",
+      brief: "The paper on the dynamic community structure and evolutionary dynamics of instant delivery networks took second place in the John Odland Spatial Analysis and Modeling student paper competition." },
+    { id: "etc-2024", date: "Sep 2024", kind: "Talk", title: "Talk at the European Transport Conference",
+      text: "Talk at the European Transport Conference, Antwerp.",
+      event: "European Transport Conference", place: "Antwerp, Belgium", geo: [51.219, 4.402], project: "communities",
+      brief: "Talk: Dynamical community detection and spatiotemporal analysis based on a multilayer instant delivery network." }
   ]
 };
