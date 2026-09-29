@@ -132,7 +132,10 @@
      A dialog opened from a link with #id (deep) adds no entry and removes the #id when it closes.
      Switching from one dialog to another reuses the entry. A link inside a dialog to another page of the site replaces the
      dialog's entry, so Back from that page returns here with the dialog closed and the scroll position kept. */
-  const MOD = { cur: null, pushed: false, switching: false };
+  const MOD = { cur: null, pushed: false };
+  /* history calls can be refused (for example inside a sandboxed preview); the dialogs then simply work without history entries */
+  const hist = (m, url, st) => { try { history[m](st === undefined ? history.state : st, '', url); return true; } catch(_){ return false; } };
+  const bare = () => location.pathname + location.search;
   function wireModal(dlg){
     if (dlg._aclWired) return; dlg._aclWired = true;
     const x = dlg.querySelector('.xbtn'); if (x) x.addEventListener('click', () => dlg.close());
@@ -145,30 +148,30 @@
       e.preventDefault();
       const pushed = MOD.cur === dlg && MOD.pushed; MOD.cur = null; MOD.pushed = false; delete dlg.dataset.deep; dlg.close();
       if (pushed) location.replace(u.href);
-      else { if (location.hash) history.replaceState(history.state, '', location.pathname + location.search); location.assign(u.href); }
+      else { if (location.hash) hist('replaceState', bare()); location.assign(u.href); }
     });
     dlg.addEventListener('close', () => {
-      if (MOD.switching || MOD.cur !== dlg) return;
+      if (MOD.cur !== dlg) return;            /* closed while switching to another dialog, or already handled */
       MOD.cur = null;
-      if (MOD.pushed){ MOD.pushed = false; history.back(); }
-      else if (dlg.dataset.deep){ delete dlg.dataset.deep; history.replaceState(history.state, '', location.pathname + location.search); }
+      if (MOD.pushed){ MOD.pushed = false; try { history.back(); } catch(_){} }
+      else if (dlg.dataset.deep){ delete dlg.dataset.deep; hist('replaceState', bare()); }
     });
   }
   ACL.openModal = function(dlg, o){
     o = o || {}; wireModal(dlg);
-    const url = o.hash != null ? location.pathname + location.search + '#' + o.hash : location.href;
-    if (MOD.cur && MOD.cur.open){ const prev = MOD.cur; MOD.switching = true; prev.close(); MOD.switching = false; if (prev !== dlg) delete prev.dataset.deep;
-      history.replaceState(history.state, '', url); if (!MOD.pushed && o.hash != null) dlg.dataset.deep = 1; }
+    const url = o.hash != null ? bare() + '#' + o.hash : location.href;
+    if (MOD.cur && MOD.cur.open){            /* switching from one dialog to another reuses the history entry */
+      const prev = MOD.cur; MOD.cur = dlg;
+      if (prev !== dlg){ delete prev.dataset.deep; prev.close(); }
+      hist('replaceState', url); if (!MOD.pushed && o.hash != null) dlg.dataset.deep = 1;
+    }
     else if (o.deep){ MOD.pushed = false; dlg.dataset.deep = 1; }
-    else { history.pushState({ aclModal: 1 }, '', url); MOD.pushed = true; delete dlg.dataset.deep; }
+    else { MOD.pushed = hist('pushState', url, { aclModal: 1 }); delete dlg.dataset.deep; }
     MOD.cur = dlg;
     if (!dlg.open){ if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); }
     dlg.querySelectorAll('.proj-in,.proj-body').forEach(b => b.scrollTop = 0);
   };
   if (window.addEventListener) window.addEventListener('popstate', () => { if (MOD.cur && MOD.cur.open){ const d = MOD.cur; MOD.cur = null; MOD.pushed = false; delete d.dataset.deep; d.close(); } });
-  /* plain left clicks on matching links run fn instead of navigating; new-tab and modified clicks still follow the link */
-  ACL.onPlainClick = (root, sel, fn) => root.addEventListener('click', e => { const a = e.target.closest(sel);
-    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; e.preventDefault(); fn(a, e); });
 
   /* ---------- Publications ---------- */
   ACL.authors = a => ACL.esc(a).replace(/Zhang, C\.(\*?)/, '<b>Zhang, C.$1</b>');
