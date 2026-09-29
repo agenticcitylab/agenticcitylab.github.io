@@ -159,6 +159,13 @@ dialog.proj::backdrop{background:rgba(0,0,0,.72)}
 .mono-tile{background:var(--bg-3);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;color:var(--fg-3);font-stretch:118%;font-variation-settings:"wdth" 118;border-radius:6px}
 
 /* ---------- Network map (worldmap.js) ---------- */
+.wm-partners{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px 24px;align-items:start;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:18px 0;margin-bottom:28px}
+.wm-partners > .mono{color:var(--fg-3);padding-top:4px}
+.wm-partners ul{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px 24px}
+.wm-partners li{display:grid;gap:2px;padding-left:12px;border-left:2px solid var(--human)}
+.wm-partners b{font-family:var(--font-display);font-weight:600;font-size:.98rem;line-height:1.2}
+.wm-partners span{font-size:.8rem;color:var(--fg-3)}
+@media (max-width:640px){.wm-partners{grid-template-columns:1fr}}
 .wm-top{display:flex;justify-content:space-between;align-items:end;gap:18px 28px;flex-wrap:wrap;margin-bottom:16px}
 .wm-stats{display:flex;gap:clamp(20px,4vw,48px);flex-wrap:wrap}
 .wm-stats div{display:grid;gap:2px}

@@ -88,21 +88,23 @@
     const tip = p => { const orgs = p.orgs.filter(o => !o.home);
       return `<b>${E(p.city)}</b><span class="c">${E(p.cluster ? p.cluster.map(c => c.city).join(' · ') : p.country)}</span>`
         + (isHome(p) ? `<p class="hm">Home of ${E(home.name)}, at McGill University.</p>` : '')
-        + (orgs.length ? `<span class="h">Co-author institutions</span><ul>${orgs.map(o => `<li>${E(o.org)}<em class="num">${o.pubs.length} paper${o.pubs.length > 1 ? 's' : ''}</em></li>`).join('')}</ul>` : '')
+        + (orgs.length ? `<span class="h">Institutions</span><ul>${orgs.map(o => `<li>${E(o.org)}<em class="num">${o.pubs.length ? o.pubs.length + ' paper' + (o.pubs.length > 1 ? 's' : '') : 'collaboration'}</em></li>`).join('')}</ul>` : '')
         + (p.events.length ? `<span class="h">Conferences and talks</span><ul>${p.events.map(e => `<li>${E(e.venue)}<em class="num">${E(year(e.date))}</em></li>`).join('')}</ul>` : ''); };
 
     const events = PL.flatMap(p => p.events.map(e => Object.assign({}, e, { where: p.city + ', ' + p.country }))).sort((a, b) => year(b.date) - year(a.date));
+    const partners = (N.partners || []).map(n => N.orgs.find(o => o.org === n)).filter(Boolean);
     root.innerHTML = `
+      ${partners.length ? `<div class="wm-partners"><span class="mono">Collaborations</span><ul>${partners.map(o => `<li><b>${E(o.org)}</b><span>${E(o.city)}, ${E(o.country)}</span></li>`).join('')}</ul></div>` : ''}
       <div class="wm-top">
-        <div class="wm-stats"><div><b class="num">${countries.size}</b><span>countries and regions</span></div><div><b class="num">${nOrgs}</b><span>co-author institutions</span></div><div><b class="num">${nEvents}</b><span>conferences and talks</span></div></div>
+        <div class="wm-stats"><div><b class="num">${countries.size}</b><span>countries and regions</span></div><div><b class="num">${nOrgs}</b><span>collaborating institutions</span></div><div><b class="num">${nEvents}</b><span>conferences and talks</span></div></div>
         <div class="chips" role="group" aria-label="Show on map">
           <button type="button" class="chip" data-f="all" aria-pressed="true">All</button>
-          <button type="button" class="chip" data-f="org" aria-pressed="false"><i class="sw org"></i>Co-authors</button>
+          <button type="button" class="chip" data-f="org" aria-pressed="false"><i class="sw org"></i>Collaborators</button>
           <button type="button" class="chip" data-f="talk" aria-pressed="false"><i class="sw talk"></i>Conferences</button></div>
       </div>
       <div class="wm" data-f="all">${worldHTML}<div class="wm-plates">${['na', 'eu', 'ea', 'gba'].map(plate).join('')}</div><div class="wm-tip" role="status" hidden></div></div>
       <details class="wm-lists"><summary class="mono">All institutions and conferences</summary><div class="wm-cols">
-        <div><h3 class="mono">Co-author institutions</h3>${[...new Set(N.orgs.map(o => o.country))].map(c => `<div class="wm-g"><span class="ctry">${E(c)}</span><ul>${N.orgs.filter(o => o.country === c).map(o => `<li><span>${E(o.org)}</span><em class="num">${o.pubs.length}</em></li>`).join('')}</ul></div>`).join('')}</div>
+        <div><h3 class="mono">Collaborating institutions · joint papers</h3>${[...new Set(N.orgs.map(o => o.country))].map(c => `<div class="wm-g"><span class="ctry">${E(c)}</span><ul>${N.orgs.filter(o => o.country === c).map(o => `<li><span>${E(o.org)}</span><em class="num">${o.pubs.length || '·'}</em></li>`).join('')}</ul></div>`).join('')}</div>
         <div><h3 class="mono">Conferences and talks</h3><ul class="wm-ev">${events.map(e => `<li><span class="num">${E(e.date)}</span><span><b>${E(e.venue)}</b><i>${E(e.where)} · ${E(e.kind)}</i></span></li>`).join('')}</ul></div></div></details>`;
 
     /* ---------- interaction ---------- */

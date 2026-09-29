@@ -216,12 +216,16 @@ window.ACL_DATA = {
       venue: "arXiv", doi: "10.48550/arXiv.2507.11584" }
   ],
 
-  /* International network: co-author institutions (from paper affiliations) and conference papers not listed as talks.
+  /* International network: collaborating and co-author institutions (co-authorship from paper affiliations; pubs: [] = collaboration without a joint paper yet) and conference papers not listed as talks.
      Talks above carry their own geo. geo = [lat, lon]. pubs = ids of joint papers. */
   network: {
     home: { name: "Agentic City Lab", city: "Montréal", country: "Canada", geo: [45.504, -73.577] },
     orgs: [
       { org: "McGill University", city: "Montréal", country: "Canada", geo: [45.504, -73.577], pubs: ["di2sfca", "mllm"], home: true },
+      { org: "UCL Centre for Advanced Spatial Analysis (CASA)", city: "London", country: "United Kingdom", geo: [51.522, -0.136], pubs: [] },
+      { org: "University of North Carolina at Chapel Hill", city: "Chapel Hill", country: "USA", geo: [35.905, -79.047], pubs: [] },
+      { org: "Emory University", city: "Atlanta", country: "USA", geo: [33.793, -84.324], pubs: [] },
+      { org: "MIT Senseable City Lab", city: "Cambridge", country: "USA", geo: [42.360, -71.094], pubs: [] },
       { org: "University of Pennsylvania", city: "Philadelphia", country: "USA", geo: [39.952, -75.193], pubs: ["ufug"] },
       { org: "Lund University", city: "Lund", country: "Sweden", geo: [55.712, 13.203], pubs: ["cities", "cscwd"] },
       { org: "Ghent University", city: "Ghent", country: "Belgium", geo: [51.047, 3.728], pubs: ["di2sfca"] },
@@ -242,6 +246,8 @@ window.ACL_DATA = {
       { org: "Southeast University", city: "Nanjing", country: "China", geo: [32.057, 118.792], pubs: ["cus"] },
       { org: "Xiamen University", city: "Xiamen", country: "China", geo: [24.438, 118.097], pubs: ["cities"] }
     ],
+    /* highlighted collaborations, in display order (names must match orgs above) */
+    partners: ["McGill University", "Tsinghua University", "University of Pennsylvania", "Ghent University", "UCL Centre for Advanced Spatial Analysis (CASA)", "University of North Carolina at Chapel Hill", "Emory University", "Peking University", "Shenzhen University", "Xiamen University", "MIT Senseable City Lab"],
     papers: [
       { pub: "cscwd", date: "May 2025", venue: "IEEE International Conference on Computer Supported Cooperative Work in Design (CSCWD)", place: "Compiègne, France", geo: [49.418, 2.826] }
     ]
