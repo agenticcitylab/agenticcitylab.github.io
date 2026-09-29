@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="News · Agentic City Lab">
+<meta property="og:description" content="News from Agentic City Lab: papers, awards, talks and data releases on human–AI interaction for urban mobility and city science.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07080B">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<title>News · Agentic City Lab</title>
+<meta name="description" content="News from Agentic City Lab: papers, awards, talks and data releases on human–AI interaction for urban mobility and city science.">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+
+</style>
+
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="lockup" href="../" id="headlock" aria-label="Agentic City Lab home"></a>
+    <span class="rule" aria-hidden="true"></span>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="site-nav" id="nav" aria-label="Sections"><a href="../#route">Research</a><a href="../#projects">Projects</a><a href="../#network">Network</a><a href="../#publications">Publications</a><a href="./" aria-current="page">News</a><a href="../people/">People</a><a class="hl" href="../nicholas/">Director ↗</a></nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap page-intro">
+    <span class="mono">Agentic City Lab</span>
+    <h1>News</h1>
+    <p>Papers, awards, talks and data releases. Select an item for the full story.</p>
+  </section>
+  <section class="wrap" style="padding-bottom:clamp(56px,7vw,100px)">
+    <div class="tools"><div class="chips" id="chips" role="group" aria-label="Filter news"></div></div>
+    <div class="ngrid" id="grid"></div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div style="display:flex;gap:14px;align-items:center"><span class="lockup" id="footlock"></span><p style="max-width:56ch">Agentic City Lab studies how people and AI agents plan, move and decide together in cities. Directed by Chengbo (Nicholas) Zhang.</p></div>
+    <p class="mono meta"><a href="./">News</a> · <a href="../people/">People</a> · <a href="../nicholas/">Director</a></p>
+  </div>
+</footer>
+
+<dialog class="proj" id="dlg" aria-labelledby="proj-title">
+  <button class="xbtn" type="button">Close</button>
+  <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
+</dialog>
+<script src="../assets/data.js"></script>
+<script>window.ACL_FIG="../assets/figures/";window.ACL_IMG="../assets/img/"</script>
+<script src="../assets/gfx.js"></script>
+<script src="../assets/worldmask.js"></script>
+<script src="../assets/worldmap.js"></script>
+<script src="../assets/pages.js"></script>
+<script>
+(function(){
+  const D = window.ACL_DATA; ACL.menu();
+  document.getElementById('headlock').innerHTML = ACL.lockup(); document.getElementById('footlock').innerHTML = ACL.lockup();
+  ACL.newsPage({ D, grid: document.getElementById('grid'), chips: document.getElementById('chips'), dialog: document.getElementById('dlg'), lab: '../' });
+})();
+</script>
+
+</body>
+</html>
