@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="Agentic City Lab">
+<meta property="og:description" content="Agentic City Lab is an independent research lab in Montréal working on human–AI interaction for urban mobility and city science.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07080B">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<title>Agentic City Lab</title>
+<meta name="description" content="Agentic City Lab is an independent research lab in Montréal working on human–AI interaction for urban mobility and city science.">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/base.css">
+<style>
+
+
+/* Hero: live human–AI city */
+.hero{position:relative;border-bottom:1px solid var(--line)}
+.hero-canvas{position:relative;height:clamp(480px,58vw,740px);overflow:hidden;background:var(--bg)}
+.stage{position:absolute;inset:0}
+.stage canvas{width:100%;height:100%}
+.hud{position:absolute;top:18px;right:var(--gut);display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end;color:var(--fg-3);font-size:.68rem}
+.hud b{color:var(--fg);font-weight:500}
+.hud .live{color:var(--fg);display:inline-flex;align-items:center;gap:6px}
+.hud .live::before{content:"";width:7px;height:7px;border-radius:50%;background:#FF5A4E;box-shadow:0 0 10px #FF5A4E}
+.hero-over{position:absolute;left:0;right:0;bottom:0;padding-block:0 clamp(24px,3.4vw,44px);background:linear-gradient(to top,rgba(7,8,11,.96) 0%,rgba(7,8,11,.75) 42%,rgba(7,8,11,0) 100%);pointer-events:none}
+.hero-over .wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:32px;align-items:end;padding-top:120px}
+.hero-over .wrap > *{pointer-events:auto}
+.kicker{font-family:var(--font-serif);font-style:italic;color:var(--fg-2);font-size:1.08rem;margin-bottom:14px}
+.hero h1{font-size:clamp(2.2rem,5vw,4.6rem);font-weight:800;font-stretch:112%;font-variation-settings:"wdth" 112;letter-spacing:-.028em;line-height:.98;max-width:15ch}
+.hero h1 .h{color:var(--human)} .hero h1 .a{color:var(--agent-2)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:20px;color:var(--fg-2)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%}
+.legend .arc{width:24px;height:10px;border-radius:12px 12px 0 0;border:2px solid var(--human);border-bottom:0;border-right-color:var(--agent);background:none}
+.livelog{background:rgba(13,15,20,.9);border:1px solid var(--line-2);border-radius:8px;padding:14px 16px}
+.livelog .mono{color:var(--fg-3);margin-bottom:10px;display:flex;justify-content:space-between}
+.livelog ul{display:grid;gap:8px;min-height:7.2em}
+.livelog li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px;font-size:.82rem;line-height:1.35;color:var(--fg-2);animation:rise .4s ease}
+.livelog li .t{font-family:var(--font-mono);font-size:.7rem;color:var(--fg-3);padding-top:1px}
+.livelog b{font-weight:600}
+@keyframes rise{from{opacity:.2;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.livelog li{animation:none}}
+@media (max-width:860px){
+  .hero-canvas{height:auto}
+  .stage{position:relative;height:340px}
+  .hero-over{position:static;background:none;padding-block:0 32px}
+  .hero-over .wrap{grid-template-columns:1fr;padding-top:24px}
+  .livelog ul{min-height:0}
+  .hud{font-size:.6rem;gap:10px;top:12px}
+}
+
+/* Intro: three serif columns */
+.intro{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3.4vw,52px);padding-block:clamp(52px,6vw,88px)}
+.intro p{font-family:var(--font-serif);font-size:1.12rem;line-height:1.55;color:var(--fg-2)}
+.intro p b{color:var(--fg);font-weight:600}
+.intro p .h{color:var(--human)} .intro p .a{color:var(--agent-2)}
+@media (max-width:900px){.intro{grid-template-columns:1fr}}
+
+/* Research endeavours (three parallel cards) */
+.route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.area{padding:22px 22px 24px;border:1px solid var(--line-2);border-radius:8px;display:flex;flex-direction:column;gap:12px;background:var(--bg-2)}
+.area .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.area svg{width:64px;height:64px}
+.area .mono{color:var(--fg-3)}
+.area h3{font-size:1.28rem}
+.area p{font-family:var(--font-serif);color:var(--fg-2);font-size:1.02rem}
+.area p b{color:var(--fg);font-weight:600}
+.area .cnt{text-decoration:none;color:var(--agent-2);margin-top:auto;padding-top:4px}
+.area .cnt:hover{color:var(--fg)}
+@media (max-width:900px){.route{grid-template-columns:1fr}}
+
+/* Information grid (Senseable-style) */
+.info{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:clamp(22px,3vw,44px)}
+.info h2{font-size:1.15rem;margin-bottom:16px;font-family:var(--font-display)}
+.info .col{min-width:0}
+.mini{display:grid;gap:14px}
+.mini li{display:grid;gap:3px;padding-left:18px;position:relative}
+.mini li::before{content:"";position:absolute;left:0;top:.72em;width:9px;height:1px;background:var(--fg-3)}
+.mini .t{font-family:var(--font-serif);font-size:.98rem;line-height:1.35;color:var(--fg)}
+.mini .t a{text-decoration:none}
+.mini .s{font-size:.82rem;color:var(--fg-3)}
+.mini .s i{color:var(--fg-2)}
+.years{display:grid;gap:14px}
+.years .y{font-family:var(--font-display);font-weight:700;font-size:.95rem;color:var(--fg)}
+.years ul{display:grid;gap:6px;margin-top:6px}
+.years li{font-size:.86rem;color:var(--fg-2);line-height:1.4}
+.years li span{font-family:var(--font-mono);font-size:.68rem;color:var(--fg-3);margin-right:6px}
+.person{display:grid;grid-template-columns:76px minmax(0,1fr);gap:4px 14px;margin-bottom:22px;align-items:start}
+.person .ph{grid-row:span 4;width:76px;height:76px;border-radius:50%;overflow:hidden;border:1px solid var(--line-2);position:relative;background:var(--bg-3)}
+.person .ph img{display:block;width:100%;height:100%;object-fit:cover}
+.person > :not(.ph){grid-column:2}
+.person b{font-size:1rem}
+.person i{font-family:var(--font-serif);color:var(--fg-3)}
+.person .links{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-size:.86rem}
+.join p{font-family:var(--font-serif);color:var(--fg-2);font-size:.96rem}
+.info .more{display:inline-block;margin-top:16px;font-size:.86rem;font-weight:600;text-decoration:none;color:var(--agent-2)}
+@media (max-width:1000px){.info{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.info{grid-template-columns:1fr}}
+.foot-l{display:flex;gap:14px;align-items:center}
+</style>
+
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="lockup" href="#top" id="headlock" aria-label="Agentic City Lab home"></a>
+    <span class="rule" aria-hidden="true"></span>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="site-nav" id="nav" aria-label="Sections">
+      <a href="#route">Research</a><a href="#projects">Projects</a><a href="#network">Network</a><a href="#publications">Publications</a><a href="#info">People</a><a href="#contact">Contact</a><a class="hl" href="nicholas/">Director ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-canvas">
+      <div class="stage"><canvas id="sim" role="img" aria-label="Live simulation: residents (amber) send requests to AI agents (blue), which plan routes, meet them, travel with them and hand over orders"></canvas></div>
+      <div class="hud mono" aria-hidden="true"><span class="live">Live <b id="h-clock" class="num">17:40</b></span><span>People <b id="h-people" class="num">0</b></span><span>AI agents <b id="h-agents" class="num">0</b></span><span>Interactions <b id="h-inter" class="num">0</b></span></div>
+      <div class="hero-over">
+        <div class="wrap">
+          <div>
+            <p class="kicker">Agentic City Lab · an independent research lab in Montréal</p>
+            <h1><span class="h">Human</span>–<span class="a">AI</span> interaction for urban mobility and city science.</h1>
+            <div class="legend mono">
+              <span><i style="background:var(--human)"></i>People</span>
+              <span><i style="background:var(--agent)"></i>AI agents</span>
+              <span><i class="arc"></i>Request and reply</span>
+              <span><i style="border:2px solid var(--fg)"></i>Interaction</span>
+            </div>
+          </div>
+          <aside class="livelog" aria-label="Live interaction log"><p class="mono"><span>Interaction log</span><span>simulated</span></p><ul id="log"></ul></aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap intro" id="mission">
+    <p><b>Cities now run on human–AI interaction.</b> Couriers work with dispatch algorithms, cyclists follow navigation apps, and language-model agents can plan a walk, a trip or a policy. Every day, <span class="h">people</span> and <span class="a">AI agents</span> make decisions for, with and about each other.</p>
+    <p>Agentic City Lab studies these interactions. We ground agent models in real mobility data, measure how algorithms change the way people move, and design human–AI mobility systems that stay efficient, fair and legible to the people who live with them.</p>
+    <p>We work on three connected fronts: how people move through urban environments, how their movements form networks and logistics systems, and how agentic AI can reason and act alongside them. The lab is directed by <a href="nicholas/">Chengbo (Nicholas) Zhang</a>.</p>
+  </section>
+
+  <section class="section" id="route">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Research</span><div><h2>Three endeavours</h2><p>Each is a line of work in its own right, with its own data, methods and partners. Together they cover how people, places and AI agents shape urban mobility.</p></div></div>
+      <div class="route" id="stages"></div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Projects</span><div><h2>Current and recent work</h2><p>Each image is a figure from the underlying paper. Select a project to read more.</p></div></div>
+      <div class="tools"><div class="chips" id="chips" role="group" aria-label="Filter projects by research stage"></div>
+        <label class="search"><span id="sicon"></span><input id="q" type="search" placeholder="Search projects" aria-label="Search projects"></label></div>
+      <div class="wall" id="wall"></div>
+    </div>
+  </section>
+
+  <section class="section" id="network">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">Network</span><div><h2>Collaborators and conferences worldwide</h2><p>Institutions we have co-authored with and the conferences where our work was presented. Hover a place for details.</p></div></div>
+      <div id="wmap"></div>
+    </div>
+  </section>
+
+  <section class="section" id="info">
+    <div class="wrap info">
+      <div class="col"><h2>Latest publications</h2><ul class="mini" id="latest"></ul><a class="more" href="#publications">Browse all publications ↓</a></div>
+      <div class="col"><h2>News</h2><div class="years" id="news"></div></div>
+      <div class="col"><h2>People</h2>
+        <div class="person"><a class="ph" href="nicholas/"><img src="assets/img/portrait-sq.jpg" width="480" height="480" alt="Chengbo (Nicholas) Zhang"></a><b>Chengbo (Nicholas) Zhang</b><i>Founder &amp; Director</i><span class="meta" style="font-size:.86rem">PhD student, Transportation Engineering, McGill University</span>
+          <div class="links"><a href="nicholas/">Personal site</a><a href="https://scholar.google.com/citations?user=c6YsYRwAAAAJ" target="_blank" rel="noopener">Scholar</a><a href="https://github.com/Nicholas0027" target="_blank" rel="noopener">GitHub</a></div></div>
+        <div class="join"><h2 style="margin-bottom:8px">Join us</h2><p>We are growing the team. Students and researchers working on LLM agents, urban mobility data or spatial networks are welcome to write with a short note and a CV.</p></div>
+      </div>
+      <div class="col" id="contact"><h2>Contact</h2>
+        <div class="copy"><code>chengbo.zhang@mail.mcgill.ca</code><button type="button" data-copy="chengbo.zhang@mail.mcgill.ca">Copy</button></div>
+        <p class="meta" style="margin-top:10px;font-size:.9rem">Montréal, Québec, Canada</p>
+        <p style="margin-top:18px;font-family:var(--font-serif);color:var(--fg-2);font-size:.96rem">We work with researchers, cities and mobility platforms on data, models and tools.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="publications">
+    <div class="wrap">
+      <div class="sec-head"><span class="mono">All publications</span><div><h2>Publications and preprints</h2><p>Newest first. * Corresponding author.</p></div></div>
+      <div class="tools"><div class="chips" id="pubchips" role="group" aria-label="Filter publications by research stage"></div></div>
+      <div class="pub-list" id="pubs"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-l"><span class="lockup" id="footlock"></span><p style="max-width:56ch">An independent research lab directed by Chengbo (Nicholas) Zhang, Montréal.</p></div>
+    <p class="mono meta"><a href="#publications">Publications</a> · <a href="nicholas/">Director</a></p>
+  </div>
+</footer>
+
+<dialog class="proj" id="proj" aria-labelledby="proj-title">
+  <button class="xbtn" type="button">Close</button>
+  <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
+</dialog>
+
+<script src="assets/data.js"></script>
+<script>window.ACL_FIG="assets/figures/"</script>
+<script src="assets/gfx.js"></script>
+<script src="assets/worldmask.js"></script>
+<script src="assets/worldmap.js"></script>
+<script src="assets/sim.js"></script>
+<script>
+(function(){
+  const D = window.ACL_DATA, E = ACL.esc;
+  ACL.menu(); ACL.copyButtons();
+  document.getElementById('headlock').innerHTML = ACL.lockup();
+  document.getElementById('footlock').innerHTML = ACL.lockup();
+  document.getElementById('sicon').innerHTML = ACL.searchIcon;
+
+  document.getElementById('stages').innerHTML = D.themes.map((t, i) => {
+    const np = D.projects.filter(p => p.theme === t.id).length, nb = D.pubs.filter(p => p.themes.includes(t.id)).length;
+    return `<div class="area"><div class="top">${ACL.glyph(t.id, {label: t.name})}<span class="mono">${E(t.step)}</span></div>
+      <h3>${E(t.name)}</h3><p><b>${E(t.short)}</b> ${E(t.body)}</p>
+      <a class="mono num cnt" href="#projects" data-theme="${t.id}">${np} project${np===1?'':'s'} · ${nb} paper${nb===1?'':'s'} →</a></div>`;
+  }).join('');
+
+  ACL.projects({ D, grid: document.getElementById('wall'), chips: document.getElementById('chips'), search: document.getElementById('q'), dialog: document.getElementById('proj') });
+  document.getElementById('stages').addEventListener('click', e => { const a = e.target.closest('.cnt'); if (!a) return; const c = document.querySelector(`#chips .chip[data-k="${a.dataset.theme}"]`); if (c) c.click(); });
+
+  document.getElementById('latest').innerHTML = D.pubs.slice(0, 4).map(p => { const l = ACL.pubLink(p);
+    return `<li><span class="t"><a href="${l || '#publications'}"${l ? ' target="_blank" rel="noopener"' : ''}>${E(p.title)}</a></span><span class="s">${ACL.authors(p.authors)}</span><span class="s"><i>${E(p.venue)}</i> · ${p.inpress ? 'in press' : p.year}</span></li>`; }).join('');
+  const byYear = {}; D.news.forEach(n => { const y = (n.date.match(/\d{4}/) || ['—'])[0]; (byYear[y] = byYear[y] || []).push(n); });
+  document.getElementById('news').innerHTML = Object.keys(byYear).sort((a, b) => b - a).map(y => `<div><span class="y num">${y}</span><ul>${byYear[y].map(n => `<li><span>${E(n.date.replace(/\s?\d{4}/, '') || '·')}</span>${E(n.text)}</li>`).join('')}</ul></div>`).join('');
+
+  const fEl = document.getElementById('pubchips'), pEl = document.getElementById('pubs');
+  fEl.innerHTML = `<button type="button" class="chip" data-k="all" aria-pressed="true">All <span class="num meta">${D.pubs.length}</span></button>` +
+    D.themes.map(t => `<button type="button" class="chip" data-k="${t.id}" aria-pressed="false">${E(t.step)} <span class="num meta">${D.pubs.filter(p => p.themes.includes(t.id)).length}</span></button>`).join('');
+  const show = k => { ACL.renderPubs(pEl, D.pubs, p => k === 'all' || p.themes.includes(k)); fEl.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.k === k)); };
+  fEl.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) show(b.dataset.k); });
+  show('all');
+
+  ACL.worldMap({ mount: document.getElementById('wmap'), D });
+  ACL.citySim({ canvas: document.getElementById('sim'), log: document.getElementById('log'), speed: 0.55,
+    hud: { clock: document.getElementById('h-clock'), people: document.getElementById('h-people'), agents: document.getElementById('h-agents'), inter: document.getElementById('h-inter') } });
+})();
+</script>
+
+</body>
+</html>
