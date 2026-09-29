@@ -11,7 +11,7 @@
 <title>Agentic City Lab</title>
 <meta name="description" content="Agentic City Lab studies human–AI interaction for urban mobility and city science: how people and AI agents plan, move and decide together in cities.">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/base.css?v=30463879">
 <style>
 
 
@@ -87,10 +87,14 @@
 .years ul{display:grid;gap:6px;margin-top:6px}
 .years li{font-size:.86rem;color:var(--fg-2);line-height:1.4}
 .years li span{font-family:var(--font-mono);font-size:.68rem;color:var(--fg-3);margin-right:6px}
-.years li a{text-decoration:none;color:inherit}
-.years li a:hover{color:var(--fg)}
+.years li .nlink{all:unset;cursor:pointer;color:inherit}
+.years li .nlink:hover{color:var(--fg)}
+.nlink:focus-visible,.person button:focus-visible{outline:2px solid var(--agent-2);outline-offset:3px;border-radius:3px}
 .person{display:grid;grid-template-columns:76px minmax(0,1fr);gap:4px 14px;margin-bottom:22px;align-items:start}
 .person .ph{grid-row:span 4;width:76px;height:76px;border-radius:50%;overflow:hidden;border:1px solid var(--line-2);position:relative;background:var(--bg-3)}
+.person button.ph{padding:0;cursor:pointer;display:block}
+.person .pname{all:unset;cursor:pointer}
+.person .pname:hover{color:var(--agent-2)}
 .person .ph img{display:block;width:100%;height:100%;object-fit:cover}
 .person > :not(.ph){grid-column:2}
 .person b{font-size:1rem}
@@ -174,7 +178,7 @@
       <div class="col"><h2>Latest publications</h2><ul class="mini" id="latest"></ul><a class="more" href="#publications">Browse all publications ↓</a></div>
       <div class="col"><h2>News</h2><div class="years" id="news"></div><a class="more" href="news/">All news →</a></div>
       <div class="col"><h2>People</h2>
-        <div class="person"><a class="ph" href="people/#chengbo" data-person="chengbo"><img src="assets/img/portrait-sq.jpg" width="480" height="480" alt="Chengbo (Nicholas) Zhang"></a><b><a href="people/#chengbo" data-person="chengbo" style="text-decoration:none">Chengbo (Nicholas) Zhang</a></b><i>Founder &amp; Director</i><span class="meta" style="font-size:.86rem">PhD student, Transportation Engineering, McGill University</span>
+        <div class="person"><button type="button" class="ph" data-person="chengbo" aria-label="Profile of Chengbo (Nicholas) Zhang"><img src="assets/img/portrait-sq.jpg" width="480" height="480" alt=""></button><b><button type="button" class="pname" data-person="chengbo">Chengbo (Nicholas) Zhang</button></b><i>Founder &amp; Director</i><span class="meta" style="font-size:.86rem">PhD student, Transportation Engineering, McGill University</span>
           <div class="links"><a href="nicholas/">Personal site</a><a href="https://scholar.google.com/citations?user=c6YsYRwAAAAJ" target="_blank" rel="noopener">Scholar</a><a href="https://github.com/Nicholas0027" target="_blank" rel="noopener">GitHub</a></div></div>
         <a class="more" href="people/" style="margin:0 0 22px">Meet the team →</a>
         <div class="join"><h2 style="margin-bottom:8px">Join us</h2><p id="joinlead"></p><a class="more" href="people/#join">Work with us →</a></div>
@@ -213,13 +217,13 @@
   <div class="proj-in"><div class="proj-fig"></div><div class="proj-body"></div></div>
 </dialog>
 
-<script src="assets/data.js"></script>
+<script src="assets/data.js?v=a7a18782"></script>
 <script>window.ACL_FIG="assets/figures/";window.ACL_IMG="assets/img/"</script>
-<script src="assets/gfx.js"></script>
-<script src="assets/worldmask.js"></script>
-<script src="assets/worldmap.js"></script>
-<script src="assets/sim.js"></script>
-<script src="assets/pages.js"></script>
+<script src="assets/gfx.js?v=305619e8"></script>
+<script src="assets/worldmask.js?v=82e4a83c"></script>
+<script src="assets/worldmap.js?v=31fc9139"></script>
+<script src="assets/sim.js?v=94656a0e"></script>
+<script src="assets/pages.js?v=6545f0e3"></script>
 <script>
 (function(){
   const D = window.ACL_DATA, E = ACL.esc;
@@ -241,14 +245,14 @@
   document.getElementById('latest').innerHTML = D.pubs.slice(0, 4).map(p => { const l = ACL.pubLink(p);
     return `<li><span class="t"><a href="${l || '#publications'}"${l ? ' target="_blank" rel="noopener"' : ''}>${E(p.title)}</a></span><span class="s">${ACL.authors(p.authors)}</span><span class="s"><i>${E(p.venue)}</i> · ${p.inpress ? 'in press' : p.year}</span></li>`; }).join('');
   const byYear = {}; D.news.forEach(n => { const y = (n.date.match(/\d{4}/) || ['—'])[0]; (byYear[y] = byYear[y] || []).push(n); });
-  document.getElementById('news').innerHTML = Object.keys(byYear).sort((a, b) => b - a).slice(0, 2).map(y => `<div><span class="y num">${y}</span><ul>${byYear[y].slice(0, 5).map(n => `<li><a href="news/#${n.id}" data-news="${n.id}"><span>${E(n.date.replace(/\s?\d{4}/, '') || '·')}</span>${E(n.text)}</a></li>`).join('')}</ul></div>`).join('');
+  document.getElementById('news').innerHTML = Object.keys(byYear).sort((a, b) => b - a).slice(0, 2).map(y => `<div><span class="y num">${y}</span><ul>${byYear[y].slice(0, 5).map(n => `<li><button type="button" class="nlink" data-news="${n.id}"><span>${E(n.date.replace(/\s?\d{4}/, '') || '·')}</span>${E(n.text)}</button></li>`).join('')}</ul></div>`).join('');
   /* news titles and the director's card open in place; Close returns to this spot, "Full details" / "People page" go on */
   const dlg = document.getElementById('dlg');
   const nd = ACL.newsDialog({ D, dialog: dlg, newsHref: 'news/', onProject: id => projects.open(id) });
   const pd = ACL.personDialog({ D, dialog: dlg, home: 'nicholas/', peopleHref: 'people/' });
-  ACL.onPlainClick(document.getElementById('news'), 'a[data-news]', a => nd.open(a.dataset.news));
-  ACL.onPlainClick(document.querySelector('#info .person'), 'a[data-person]', a => pd.open(a.dataset.person));
-  document.getElementById('joinlead').textContent = D.join.lead.split(/(?<=\.)\s/)[0];
+  document.getElementById('news').addEventListener('click', e => { const b = e.target.closest('[data-news]'); if (b) nd.open(b.dataset.news); });
+  document.querySelector('#info .person').addEventListener('click', e => { const b = e.target.closest('[data-person]'); if (b) pd.open(b.dataset.person); });
+  document.getElementById('joinlead').textContent = D.join.lead.split('. ')[0] + '.';
 
   const fEl = document.getElementById('pubchips'), pEl = document.getElementById('pubs');
   fEl.innerHTML = `<button type="button" class="chip" data-k="all" aria-pressed="true">All <span class="num meta">${D.pubs.length}</span></button>` +
