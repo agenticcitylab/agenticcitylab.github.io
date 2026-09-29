@@ -69,6 +69,8 @@
 .news li:last-child{border-right:0;margin-right:0}
 .news .mono{color:var(--human)}
 .news p{font-size:.9rem;color:var(--fg-2)}
+.news li a{display:grid;gap:6px;text-decoration:none;color:inherit}
+.news li a:hover p{color:var(--fg)}
 @media (max-width:1000px){.news{grid-template-columns:repeat(2,minmax(0,1fr))}.news li{border-right:0;border-bottom:1px solid var(--line)}}
 @media (max-width:520px){.news{grid-template-columns:1fr}}
 
@@ -208,7 +210,7 @@
 </dialog>
 
 <script src="../assets/data.js"></script>
-<script>window.ACL_FIG="../assets/figures/"</script>
+<script>window.ACL_FIG="../assets/figures/";window.ACL_IMG="../assets/img/"</script>
 <script src="../assets/gfx.js"></script>
 <script src="../assets/worldmask.js"></script>
 <script src="../assets/worldmap.js"></script>
@@ -220,7 +222,7 @@
   document.getElementById('labmark').innerHTML = ACL.mark();
   document.getElementById('sicon').innerHTML = ACL.searchIcon;
 
-  document.getElementById('news').innerHTML = D.news.slice(0, 5).map(n => `<li><span class="mono">${E(n.date)}</span><p>${E(n.text)}</p></li>`).join('');
+  document.getElementById('news').innerHTML = D.news.slice(0, 5).map(n => `<li><a href="../news/#${n.id}"><span class="mono">${E(n.date)}</span><p>${E(n.text)}</p></a></li>`).join('');
 
   const personal = {
     mobility: "I began with how urban environments shape active travel: jogging volume and speed, the pace of walking and cycling, community park visits, and how greenery and sky openness steer cycling routes. I later reconstructed how delivery riders move across Beijing.",
