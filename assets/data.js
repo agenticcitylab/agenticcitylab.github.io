@@ -13,7 +13,7 @@ window.ACL_DATA = {
   },
 
   mission: {
-    line: "Human–AI interaction for urban mobility and city science.",
+    line: "Human–AI interaction for urban mobility and city science",
     body: "Agentic City Lab studies how people and AI agents interact as they travel, work and plan in cities. We ground agent models in real mobility data, measure how algorithms change the way people move, and design human–AI mobility systems that stay efficient, fair and legible."
   },
 
@@ -95,8 +95,8 @@ window.ACL_DATA = {
       line: "Why some community parks draw more visitors than others.",
       body: "An explainable machine learning model links community park visits in Shenzhen to interacting built-environment attributes, with street connectivity and its interactions playing a central role.",
       pubs: ["apgeog"] },
-    { id: "green-routes", title: "Greenery and Cycling Routes", years: "2025", theme: "mobility", fig: "green-routes",
-      line: "How road greenery and open sky steer leisure cyclists' routes.",
+    { id: "green-routes", title: "Cycling Route Choice under Navigation", years: "2025", theme: "mobility", fig: "green-routes",
+      line: "How the routes a navigation app offers, and the greenery and open sky along them, shape leisure cycling.",
       body: "Online map navigation records reveal how street-level visual experience, including road greenery and sky openness, influences non-commuting cycling route choice.",
       pubs: ["transportation"] },
     { id: "beijing", title: "Delivery Trajectories in Beijing", years: "2025–26", theme: "mobility", fig: "beijing",

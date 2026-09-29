@@ -43,7 +43,8 @@
       const c = [(hp[0] + q[0]) / 2, (hp[1] + q[1]) / 2 - h], path = `M${hp[0].toFixed(1)} ${hp[1].toFixed(1)}Q${c[0].toFixed(1)} ${c[1].toFixed(1)} ${q[0].toFixed(1)} ${q[1].toFixed(1)}`;
       [['org', p.orgs.length], ['talk', p.events.length]].forEach(([k, n]) => { if (!n) return;
         arcs += `<path class="wm-arc ${k}" d="${path}"/>`;
-        pulses += `<circle class="wm-pulse ${k}" r="2.4"><animateMotion dur="${6 + (i % 5)}s" begin="${((i * 1.3) % 6).toFixed(1)}s" repeatCount="indefinite" path="${path}"/></circle>`; });
+        /* only conferences carry a moving pulse; co-author ties are drawn as static links */
+        if (k === 'talk') pulses += `<circle class="wm-pulse ${k}" r="2.4"><animateMotion dur="${6 + (i % 5)}s" begin="${((i * 1.3) % 6).toFixed(1)}s" repeatCount="indefinite" path="${path}"/></circle>`; });
       const kd = kind(p); small += `<circle class="wm-dot ${kd === 'talk' ? 'talk' : 'org'}${kd === 'both' ? ' both' : ''}" cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="${kd === 'talk' ? 3.4 : 2.6}"/>`; });
     const boxes = ['na', 'eu', 'ea'].filter(k => PLATES[k]).map(k => { const m = PLATES[k], a = wp([m.lat0, m.lon0]), b = wp([m.lat1, m.lon1]);
       return { k, x: a[0], y: a[1], w: b[0] - a[0], h: b[1] - a[1] }; });
