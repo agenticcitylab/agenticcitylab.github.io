@@ -329,3 +329,15 @@ dialog.proj::backdrop{background:rgba(0,0,0,.72)}
 /* the card behind an item opened from a link */
 .ncard .nimg,.member .mph{transition:border-color .4s,box-shadow .4s}
 .ncard.seen .nimg,.member.seen .mph{border-color:var(--human);box-shadow:0 0 0 2px var(--human)}
+
+/* research films */
+.tile{position:relative}
+.film-chip{position:absolute;top:10px;left:10px;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(7,8,11,.72);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:3px 9px;pointer-events:none}
+.proj-fig:has(.fig-tabs){align-content:start}
+.fig-tabs{display:flex;gap:6px;padding:12px 14px 0}
+.fig-tabs button{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--fg-3);border:1px solid var(--line-2);border-radius:999px;padding:5px 12px;cursor:pointer}
+.fig-tabs button[aria-selected="true"]{color:var(--fg);border-color:var(--fg-3);background:var(--bg-3)}
+.fig-tabs button:focus-visible{outline:2px solid var(--agent-2);outline-offset:2px}
+.fig-pane{padding:12px 14px 14px}
+.fig-pane video{display:block;width:100%;aspect-ratio:16/9;background:#000;border-radius:6px}
+.fig-pane .gcap{padding:10px 2px 0}

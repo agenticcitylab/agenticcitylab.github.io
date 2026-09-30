@@ -135,6 +135,7 @@ window.ACL_DATA = {
       body: "Hierarchical adversarial inverse reinforcement learning models cyclists' global, local and action-level choices and profiles heterogeneous behavioral strategies behind observed routes.",
       pubs: ["airl"] },
     { id: "citywalk", title: "Citywalk Planning Agents", years: "2026", theme: "agentic", fig: "citywalk", status: "Under review",
+      video: { src: "citywalk.mp4", poster: "citywalk-poster.jpg", cap: "Research film · 60 s · data drawn from the paper's figures" },
       line: "An agentic AI system that plans walks with people, from social-media narratives.",
       body: "LLM agents turn social-media narratives into an experiential urban network of places, themes and affect. A multi-agent planning system then recommends and revises citywalk routes together with users; a user study with 98 participants compares it with three LLM baselines.",
       pubs: [] },

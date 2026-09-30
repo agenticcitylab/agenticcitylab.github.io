@@ -87,11 +87,12 @@
 
   /* ---------- Project wall + dialog ---------- */
   ACL.FIG = window.ACL_FIG || 'figures/';
+  ACL.VID = window.ACL_VID || 'video/';
   ACL.figBox = (p, D) => {
     const f = p.fig && D.figures[p.fig];
     return f ? `<div class="fig"><img src="${ACL.FIG}${p.fig}.jpg" alt="${ACL.esc(f.cap)}"></div>` : `<div class="fig fig-empty">${ACL.glyph(p.theme)}</div>`;
   };
-  ACL.tileHTML = (p, D) => `<button type="button" class="tile" data-id="${p.id}" data-theme="${p.theme}">${ACL.figBox(p, D)}
+  ACL.tileHTML = (p, D) => `<button type="button" class="tile" data-id="${p.id}" data-theme="${p.theme}">${ACL.figBox(p, D)}${p.video ? '<span class="film-chip" aria-label="Includes a research film">▶ Film</span>' : ''}
       <h3>${ACL.esc(p.title)}</h3><span class="yr num">${ACL.esc(p.years)}${p.status ? `<span class="status">${ACL.esc(p.status)}</span>` : ''}</span></button>`;
   ACL.projects = function(opt){
     const D = opt.D, E = ACL.esc, grid = opt.grid, PUB = Object.fromEntries(D.pubs.map(p => [p.id, p])), TH = Object.fromEntries(D.themes.map(t => [t.id, t]));
@@ -110,7 +111,16 @@
     if (opt.search) opt.search.addEventListener('input', () => { q = opt.search.value.trim().toLowerCase(); apply(); });
     const dlg = opt.dialog, dfig = dlg.querySelector('.proj-fig'), dbody = dlg.querySelector('.proj-body');
     const open = (id, o) => { const p = D.projects.find(x => x.id === id); if (!p) return; const F = p.fig && D.figures[p.fig];
-      dfig.innerHTML = F ? `<img src="${ACL.FIG}${p.fig}-full.jpg" alt="${E(F.cap)}">` : ACL.figBox(p, D);
+      const figHTML = F ? `<img src="${ACL.FIG}${p.fig}-full.jpg" alt="${E(F.cap)}">` : ACL.figBox(p, D);
+      if (p.video){   // research film first, the paper figure one tap away
+        dfig.innerHTML = `<div class="fig-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-v="film">Film</button><button type="button" role="tab" aria-selected="false" data-v="fig">Figure</button></div>
+          <div class="fig-pane" data-p="film"><video controls playsinline preload="metadata" poster="${ACL.VID}${p.video.poster}"><source src="${ACL.VID}${p.video.src}" type="video/mp4"></video><p class="gcap">${E(p.video.cap)}</p></div>
+          <div class="fig-pane" data-p="fig" hidden>${figHTML}</div>`;
+        dfig.querySelectorAll('.fig-tabs button').forEach(b => b.addEventListener('click', () => {
+          dfig.querySelectorAll('.fig-tabs button').forEach(x => x.setAttribute('aria-selected', x === b));
+          dfig.querySelectorAll('.fig-pane').forEach(x => x.hidden = x.dataset.p !== b.dataset.v);
+          if (b.dataset.v !== 'film') dfig.querySelector('video').pause(); }));
+      } else dfig.innerHTML = figHTML;
       dbody.innerHTML = `<span class="mono meta num">${E(p.years)} · ${E(TH[p.theme].name)}</span>
         <h3 id="proj-title">${E(p.title)}</h3><p>${E(p.body)}</p>
         ${p.badge ? `<div><span class="tag award">${E(p.badge)}</span></div>` : ''}${p.status ? `<div><span class="status" style="margin:0">${E(p.status)}</span></div>` : ''}
@@ -150,6 +160,7 @@
       if (pushed) location.replace(u.href);
       else { if (location.hash) hist('replaceState', bare()); location.assign(u.href); }
     });
+    dlg.addEventListener('close', () => { dlg.querySelectorAll('video').forEach(v => v.pause()); });
     dlg.addEventListener('close', () => {
       if (MOD.cur !== dlg) return;            /* closed while switching to another dialog, or already handled */
       MOD.cur = null;
