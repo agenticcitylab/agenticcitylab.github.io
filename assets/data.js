@@ -82,7 +82,7 @@ window.ACL_DATA = {
     },
     "citywalk": {
       "cap": "Citywalk planning interface: an agentic system revises a walk plan with the user",
-      "ref": "Under review"
+      "ref": "Planning-system paper, under review"
     }
   },
 
@@ -144,11 +144,11 @@ window.ACL_DATA = {
       line: "Recovering the decision logic behind observed cycling routes.",
       body: "Hierarchical adversarial inverse reinforcement learning models cyclists' global, local and action-level choices and profiles heterogeneous behavioral strategies behind observed routes.",
       pubs: ["airl"] },
-    { id: "citywalk", title: "Citywalk Planning Agents", years: "2026", theme: "agentic", fig: "citywalk", status: "Under review",
+    { id: "citywalk", title: "Citywalk Experiential Networks", years: "2026–27", theme: "agentic", fig: "citywalk", status: "Planning system under review",
       video: { src: "citywalk.mp4", poster: "citywalk-poster.jpg", cap: "Research film · 60 s · data drawn from the paper's figures" },
-      line: "An agentic AI system that plans walks with people, from social-media narratives.",
-      body: "LLM agents turn social-media narratives into an experiential urban network of places, themes and affect. A multi-agent planning system then recommends and revises citywalk routes together with users; a user study with 98 participants compares it with three LLM baselines.",
-      pubs: [] },
+      line: "LLM agents map how citywalks link places, themes and feelings, then plan walks with people.",
+      body: "Specialized LLM agents read social-media citywalk narratives: they extract the sequence of places, classify each route's themes and rate its affect on the Pleasure–Arousal–Dominance scale. Together these form a directed, weighted mobility–theme–affect network of citywalk (Travel Behaviour and Society). Building on this network, a multi-agent planning system recommends and revises citywalk routes together with users; a user study with 98 participants compares it with three LLM baselines.",
+      pubs: ["citywalk-tbs"] },
     { id: "mllm-review", title: "Agents Across the Transport Lifecycle", years: "2026", theme: "agentic",
       line: "Where multimodal LLM agents are entering transportation, and what policy should do.",
       body: "A review, led by Prof. Jiangbo Yu, of early progress in multimodal large-language-model agents across the transportation systems lifecycle, from planning and design to operations and policy, with recommendations for governing them.",
@@ -157,6 +157,10 @@ window.ACL_DATA = {
 
   /* type: journal | conference | preprint. me: position note. */
   pubs: [
+    { id: "citywalk-tbs", type: "journal", year: 2027, themes: ["agentic"],
+      authors: "Zhu, D., Zhang, C.*, Liu, Y., Deng, W., & Cai, Y.",
+      title: "From social media narratives to experiential networks: A Large Language Model (LLM) multi-agent framework for mapping the integrated mobility-theme-affect network of Citywalk",
+      venue: "Travel Behaviour and Society", details: "47, Article 101439", url: "https://www.sciencedirect.com/science/article/pii/S2214367X26002085" },
     { id: "di2sfca", type: "journal", year: 2026, themes: ["networks"],
       authors: "Zhang, C., Cui, Q., Ma, X., Li, Y., Xiao, Z., & Yu, J.*",
       title: "Introducing spatiotemporal order crowdedness into the on-demand delivery management data pipeline: A dynamic inverted two-step floating catchment area (Di2SFCA) method",
@@ -330,6 +334,9 @@ window.ACL_DATA = {
     students: "Students and researchers working on LLM agents, urban mobility data or spatial networks are welcome to write with a short note, a CV and the topic they would like to work on."
   },
   news: [
+    { id: "tbs-citywalk-2026", date: "Nov 2026", kind: "Paper", title: "Citywalk experiential networks in Travel Behaviour and Society",
+      text: "Citywalk paper on LLM multi-agent mapping of social-media narratives published in Travel Behaviour and Society.", pub: "citywalk-tbs", project: "citywalk",
+      brief: "Specialized LLM agents turn social-media citywalk narratives into a directed, weighted network that links where people walk with the themes of their routes and how the walks feel, read on the Pleasure–Arousal–Dominance scale." },
     { id: "itgc-2026", date: "Jul 2026", kind: "Award", title: "Runner-up, ITGC Graduate Student Paper Competition",
       text: "Runner-up in the Graduate Student Paper Competition at the International Time Geography Conference, Toronto.",
       event: "6th International Time Geography Conference, Victoria College, University of Toronto", place: "Toronto, Canada", geo: [43.667, -79.392], rank: "2 of 10", pub: "di2sfca", project: "di2sfca",
