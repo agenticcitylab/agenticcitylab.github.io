@@ -125,7 +125,7 @@
         <h3 id="proj-title">${E(p.title)}</h3><p>${E(p.body)}</p>
         ${p.badge ? `<div><span class="tag award">${E(p.badge)}</span></div>` : ''}${p.status ? `<div><span class="status" style="margin:0">${E(p.status)}</span></div>` : ''}
         ${p.links ? `<div class="proj-links">${p.links.map(l => `<a class="btn" href="${l.url}" target="_blank" rel="noopener">${E(l.label)} ↗</a>`).join('')}</div>` : ''}
-        ${p.pubs.length ? `<div><span class="mono meta">Publications</span>${p.pubs.map(id => ACL.pubHTML(PUB[id])).join('')}</div>` : ''}
+        ${p.pubs.length ? `<div><span class="mono meta">Publications</span>${p.pubs.map(id => ACL.pubHTML(PUB[id], { noFilm: true })).join('')}</div>` : ''}
         ${F ? `<p class="proj-cap">${E(F.cap)}. ${E(F.ref)}.</p>` : ''}`;
       ACL.openModal(dlg, Object.assign({ hash: p.id }, o)); };
     grid.addEventListener('click', e => { const t = e.target.closest('.tile'); if (t) open(t.dataset.id); });
@@ -187,14 +187,18 @@
   /* ---------- Publications ---------- */
   ACL.authors = a => ACL.esc(a).replace(/Zhang, C\.(\*?)/, '<b>Zhang, C.$1</b>');
   ACL.pubLink = p => p.doi ? 'https://doi.org/' + p.doi : (p.url || '');
-  ACL.pubHTML = function(p){
+  /* the project whose research film draws on this publication; a page that sets ACL.FILM_HREF shows a Film link beside the DOI */
+  ACL.filmOf = id => { const D = window.ACL_DATA, p = D && D.projects.find(x => x.video && x.pubs.indexOf(id) >= 0); return p ? p.id : null; };
+  ACL.pubHTML = function(p, o){
+    o = o && typeof o === 'object' ? o : {};
     const link = ACL.pubLink(p), typeLabel = {journal:'Journal', conference:'Conference', preprint:'Preprint'}[p.type];
+    const film = !o.noFilm && ACL.FILM_HREF != null ? ACL.filmOf(p.id) : null;
     return `<article class="pub"><div style="min-width:0">
         <div class="pub-title">${link ? `<a href="${link}" target="_blank" rel="noopener">${ACL.esc(p.title)}</a>` : ACL.esc(p.title)}</div>
         <div class="pub-auth">${ACL.authors(p.authors)} (${p.inpress ? 'in press' : p.year})</div>
         <div class="pub-venue"><i>${ACL.esc(p.venue)}</i>${p.details ? `, ${ACL.esc(p.details)}` : ''}${p.lang ? ` · ${p.lang}` : ''}${p.note ? ` · ${ACL.esc(p.note)}` : ''}</div>
         ${p.award ? `<div class="pub-extra"><span class="tag award">${ACL.esc(p.award)}</span></div>` : ''}</div>
-      <div class="pub-side"><span class="tag">${typeLabel}</span>${link ? `<a class="doi" href="${link}" target="_blank" rel="noopener">${p.doi ? 'DOI ↗' : 'Link ↗'}</a>` : ''}</div></article>`;
+      <div class="pub-side"><span class="tag">${typeLabel}</span>${link ? `<a class="doi" href="${link}" target="_blank" rel="noopener">${p.doi ? 'DOI ↗' : 'Link ↗'}</a>` : ''}${film ? `<a class="doi film" href="${ACL.FILM_HREF}${film}">Film ▶</a>` : ''}</div></article>`;
   };
   ACL.renderPubs = function(el, pubs, filter){
     const list = pubs.filter(filter || (() => true)), years = [...new Set(list.map(p => p.year))].sort((a, b) => b - a);
