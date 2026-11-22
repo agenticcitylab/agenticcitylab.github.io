@@ -341,3 +341,4 @@ dialog.proj::backdrop{background:rgba(0,0,0,.72)}
 .fig-pane{padding:12px 14px 14px}
 .fig-pane video{display:block;width:100%;aspect-ratio:16/9;background:#000;border-radius:6px}
 .fig-pane .gcap{padding:10px 2px 0}
+.pub a.film{color:var(--human)}
